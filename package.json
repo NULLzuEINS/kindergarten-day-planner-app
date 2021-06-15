@@ -1,0 +1,19 @@
+{
+  "name": "kindergarten-day-planner-app",
+  "version": "1.0.0",
+  "description": "Kindergarten day planner frontend application",
+  "main": "index.html",
+  "scripts": {
+    "dev": "./node_modules/.bin/browser-sync"
+  },
+  "repository": "git@github.com:NULLzuEINS/kindergarten-day-planner-app.git",
+  "author": "André Lademann <andre@nullzueins.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "browser-sync": "^2.26.14"
+  },
+  "dependencies": {
+    "image-picker": "^0.3.1"
+  }
+}

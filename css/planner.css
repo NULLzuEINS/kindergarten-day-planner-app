@@ -1,0 +1,25 @@
+body {
+  background-color: #333;
+  padding: 2em;
+  font-family: sans-serif;
+  color: #aaa;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+input[type='checkbox'] + label {
+  border: white solid 8px;
+  height: 9rem;
+  width: 12rem;
+  display: inline-block;
+  padding: 0;
+  background-repeat: none;
+  background-size: cover;
+  background-position: center center;
+}
+
+input[type='checkbox']:checked + label {
+  border-color: rgb(0, 221, 255);
+}

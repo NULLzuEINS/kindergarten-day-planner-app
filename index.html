@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.min.css"
+        integrity="sha512-eBMsZu/o2UFXJcFdYnG1zuuQcR6JYHTilXPXzI7UmSuTNUZYJbKXaQRrnRHLzA2UhMLoU1Weac9OAxE6pxlJMg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/planner.css">
+</head>
+
+<body>
+    <main>
+        <form action="" method="get" id="source">
+            <fieldset>
+                <legend>Select field</legend>
+                <select name="items" multiple="multiple" size="12" id="items">
+                    <option value="img/00_unspecified.jpg">Allgemein</option>
+                    <option value="img/01_ankommen.jpg">Ankommen</option>
+                    <option value="img/02_frühstück.jpg">Frühstück</option>
+                    <option value="img/03_morgenkreis.jpg">Morgenkreis</option>
+                    <option value="img/04_draußen.jpg">Draußen</option>
+                    <option value="img/05_wickeln.jpg">Wickeln</option>
+                    <option value="img/06_tanzen.jpg">Tanzen</option>
+                    <option value="img/07_lesen.jpg">Lesen</option>
+                    <option value="img/08_spielen.jpg">Spielen</option>
+                    <option value="img/09_experimentieren.jpg">Experimentieren</option>
+                    <option value="img/10_mittagessen.jpg">Mittagessen</option>
+                    <option value="img/11_mittagsschlaf.jpg">Mittagsschlaf</option>
+                    <option value="img/12_kitafest.jpg">Kitafest</option>
+                    <option value="img/13_elternabend.jpg">Elternabend</option>
+                    <option value="img/14_verabschieden.jpg">Verabschieden</option>
+                </select>
+            </fieldset>
+
+            <fieldset>
+                <legend>Checkbox</legend>
+                <input type="checkbox" name='thing[]' id="00_unspecified" value="00_unspecified" />
+                <label style="background-image: url('img/00_unspecified.jpg');" for="00_unspecified"
+                    title="Allgemein"></label>
+
+                <input type="checkbox" name='thing[]' id="01_ankommen" value="01_ankommen" />
+                <label style="background-image: url('img/01_ankommen.jpg');" for="01_ankommen" title="Ankommen"></label>
+
+                <input type="checkbox" name='thing[]' id="02_fruehstueck" value="02_fruehstueck" />
+                <label style="background-image: url('img/02_fruehstueck.jpg');" for="02_fruehstueck"
+                    title="Frühstück"></label>
+
+                <input type="checkbox" name='thing[]' id="03_morgenkreis" value="03_morgenkreis" />
+                <label style="background-image: url('img/03_morgenkreis.jpg');" for="03_morgenkreis"
+                    title="Morgenkreis"></label>
+
+                <input type="checkbox" name='thing[]' id="04_draussen" value="04_draussen" />
+                <label style="background-image: url('img/04_draussen.jpg');" for="04_draussen" title="Draußen"></label>
+
+                <input type="checkbox" name='thing[]' id="05_wickeln" value="05_wickeln" />
+                <label style="background-image: url('img/05_wickeln.jpg');" for="05_wickeln" title="Wickeln"></label>
+
+                <input type="checkbox" name='thing[]' id="06_tanzen" value="06_tanzen" />
+                <label style="background-image: url('img/06_tanzen.jpg');" for="06_tanzen" title="Tanzen"></label>
+
+                <input type="checkbox" name='thing[]' id="07_lesen" value="07_lesen" />
+                <label style="background-image: url('img/07_lesen.jpg');" for="07_lesen" title="Lesen"></label>
+
+                <input type="checkbox" name='thing[]' id="08_spielen" value="08_spielen" />
+                <label style="background-image: url('img/08_spielen.jpg');" for="08_spielen" title="Spielen"></label>
+
+                <input type="checkbox" name='thing[]' id="09_experimentieren" value="09_experimentieren" />
+                <label style="background-image: url('img/09_experimentieren.jpg');" for="09_experimentieren"
+                    title="Experimentieren"></label>
+
+                <input type="checkbox" name='thing[]' id="10_mittagessen" value="10_mittagessen" />
+                <label style="background-image: url('img/10_mittagessen.jpg');" for="10_mittagessen"
+                    title="Mittagessen"></label>
+
+                <input type="checkbox" name='thing[]' id="11_mittagsschlaf" value="11_mittagsschlaf" />
+                <label style="background-image: url('img/11_mittagsschlaf.jpg');" for="11_mittagsschlaf"
+                    title="Mittagsschlaf"></label>
+
+                <input type="checkbox" name='thing[]' id="12_kitafest" value="12_kitafest" />
+                <label style="background-image: url('img/12_kitafest.jpg');" for="12_kitafest" title="Kitafest"></label>
+
+                <input type="checkbox" name='thing[]' id="13_elternabend" value="13_elternabend" />
+                <label style="background-image: url('img/13_elternabend.jpg');" for="13_elternabend"
+                    title="Elternabend"></label>
+
+                <input type="checkbox" name='thing[]' id="14_verabschieden" value="14_verabschieden" />
+                <label style="background-image: url('img/14_verabschieden.jpg');" for="14_verabschieden"
+                    title="Verabschieden"></label>
+            </fieldset>
+            <p><button type="submit">PDF erstellen</button></p>
+        </form>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.min.js"
+        integrity="sha512-76tAVeQq8wkwtFWzKPU03XJGMF/mcLDeBgi9wIlRICXdkLNUYVBiOL3O/R9Bold+u0eN0OUftCcBTjFkchPyBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
