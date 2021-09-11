@@ -1,10 +1,10 @@
 /*
 
-!/css/
-!/img/
-!/js/
+!/public
+!/src
 !/.gitignore
-!/index.html
+!/babel.config.js
 !/LICENSE
 !/package.json
+!/README.md
 !/yarn.lock
