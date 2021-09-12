@@ -1,7 +1,6 @@
 <template>
-	<div id="app">
-		<DayPlanner msg="Do it" />
-	</div>
+  Component:
+  <DayPlanner  />
 </template>
 
 <script>
