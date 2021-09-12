@@ -9,13 +9,18 @@
 				<h3>None selected</h3>
 				<draggable
 					class="dayplanner-group"
-					:list="list1"
-					group="people"
-					@change="log"
-					itemKey="name"
+					:list="itemsAvailable"
+					group="dayplanner"
+					itemKey="id"
 				>
-					<template #item="{ element, index }">
-						<div class="dayplanner-item">{{ element.name }} {{ index }}</div>
+					<template #item="{ element }">
+						<div class="dayplanner-item">
+							{{ element.description }}
+							<img
+								:src="require(`@/assets/images/${element.filename}`)"
+								width="100px"
+							/>
+						</div>
 					</template>
 				</draggable>
 			</div>
@@ -24,37 +29,28 @@
 				<h3>Selected</h3>
 				<draggable
 					class="dayplanner-group"
-					:list="list2"
-					group="people"
-					@change="log"
-					itemKey="name"
+					:list="itemsSelected"
+					group="dayplanner"
+					@change="persist"
+					itemKey="id"
 				>
-					<template #item="{ element, index }">
-						<div class="dayplanner-item">{{ element.name }} {{ index }}</div>
+					<template #item="{ element }">
+						<div class="dayplanner-item">{{ element.description }}</div>
 					</template>
 				</draggable>
 			</div>
 
-			<rawDisplayer
-				:class="item"
-				:value="list1"
-				title="List 1"
-			/>
-
-			<rawDisplayer
-				:class="item"
-				:value="list2"
-				title="List 2"
-			/>
-
 		</div>
 	</div>
-	<button	@click="generatePdf()">generate PDF</button>
+	<code>{{itemsSelected}}</code>
+	<hr>
+	<button @click="generatePdf()">generate PDF</button>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
 import jsPDF from 'jspdf'
+import images from '../store/images'
 
 export default {
   name: 'DayPlanner',
@@ -63,41 +59,36 @@ export default {
   },    
   data() {
     return {
-      list1: [
-        { name: "John", id: 1 },
-        { name: "Joao", id: 2 },
-        { name: "Jean", id: 3 },
-        { name: "Gerard", id: 4 },
-		{ name: "Juan", id: 5 },
-        { name: "Edgard", id: 6 },
-        { name: "Johnson", id: 7 }
-      ],
-      list2: []
+		itemsAvailable: images,
+		itemsSelected: []
     }
   },
   methods: {
-    add: function() {
-      this.list.push({ name: "Juan" });
-    },
-    log: function(evt) {
-      window.console.log(evt);
-    },
-	generatePdf: async () => {
-		return new Promise((resolve) => {
-			// Create a new instance of jsPDF
-			var doc = new jsPDF()
-			
-			// Add text to PDF
-			doc.text(20, 20, 'Hello world!')
-			
-			// Save the PDF
-			doc.save('test.pdf')
-
-			// Return the PDF as a blob
-			resolve(doc.output('blob'))
-			})
-		}
+	generatePdf: function() {
+		let doc = new jsPDF();
+		this.itemsSelected.forEach(async (item) => {
+			doc.addImage(require(`@/assets/images/${item.filename}`), "JPEG", 15, 30, 180, 120);
+			doc.addPage()
+		})
+		// Save the PDF
+		doc.save('test.pdf')
+		// Return the PDF as a blob
+		doc.output('blob')
+		},
+	persist: function() {
+		window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected)
 	}
+},
+  mounted() {
+    if (window.localStorage.itemsSelected) {
+      this.itemsSelected = JSON.parse(window.localStorage.itemsSelected);
+    }
+  },
+  watch: {
+    itemsSelected(currentSelectedItems) {
+      window.localStorage.itemsSelected = JSON.stringify(currentSelectedItems);
+    }
+  }
 }
 </script>
 
@@ -107,10 +98,12 @@ export default {
 		border: red solid 1px;
 	}
 	.dayplanner-row {
-		display: flex;
+		display: grid;
+		grid-auto-flow: column;
 	}
 	.dayplanner-col {
 		flex: 1;
+		height: 100%;
 		border: 1px solid #ccc;
 	}
 
@@ -127,5 +120,21 @@ export default {
 		margin: 5px;
 		background-color: #eee;
 		cursor: grab;
+		position: relative;
+	}
+	.dayplanner-item:active {
+		cursor: grabbing;
+	}
+	.dayplanner-item > input {
+		width: 6em;
+		line-height: 1;
+		height: 1.8em;
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		color: #444;
+		position: absolute;
+		right: 1rem;
+		top: 0;
+		bottom: 0;
 	}
 </style>
