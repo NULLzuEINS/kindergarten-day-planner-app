@@ -9,8 +9,10 @@
 				<h3>None selected</h3>
 				<draggable
 					class="dayplanner-group"
+					ghost-class="dayplanner-ghost"
+					chosen-class="dayplanner-choosen"
 					:list="itemsAvailable"
-					group="dayplanner"
+          :group="{ name: 'dayplanner', pull: 'clone', put: false }"
 					itemKey="id"
 				>
 					<template #item="{ element }">
@@ -29,11 +31,27 @@
 				<h3>Selected</h3>
 				<draggable
 					class="dayplanner-group"
+					ghost-class="dayplanner-ghost"
+					chosen-class="dayplanner-choosen"
 					:list="itemsSelected"
 					group="dayplanner"
 					@change="persist"
-					itemKey="id"
-				>
+					itemKey="id">
+					<template #item="{ element }">
+						<div class="dayplanner-item">{{ element.description }}</div>
+					</template>
+				</draggable>
+			</div>
+			<div class="dayplanner-col">
+				<h3>Bin</h3>
+				<draggable
+					class="dayplanner-group"
+					ghost-class="dayplanner-ghost"
+					chosen-class="dayplanner-choosen"
+          :group="{ name: 'dayplanner', pull: true, put: true }"
+          :list="itemsDeleted"
+					@change="persist"
+					itemKey="id">
 					<template #item="{ element }">
 						<div class="dayplanner-item">{{ element.description }}</div>
 					</template>
@@ -42,6 +60,10 @@
 
 		</div>
 	</div>
+	<h4>Items available</h4>
+	<code>{{itemsAvailable}}</code>
+	<hr>
+	<h4>Items selected</h4>
 	<code>{{itemsSelected}}</code>
 	<hr>
 	<button @click="generatePdf()">generate PDF</button>
@@ -56,37 +78,43 @@ export default {
   name: 'DayPlanner',
   components:  {
     draggable,
-  },    
+  },
   data() {
     return {
-		itemsAvailable: images,
-		itemsSelected: []
+      itemsAvailable: images,
+      itemsDeleted: [],
+      itemsSelected: [],
+    }
+  },
+  computed: {
+    myList: {
+        get() {
+            return JSON.parse(localStorage.getItem('myList')) || []
+        },
+        set(value) {
+            localStorage.setItem('myList', JSON.stringify(value))
+        }
     }
   },
   methods: {
-	generatePdf: function() {
-		let doc = new jsPDF();
-		this.itemsSelected.forEach(async (item) => {
-			doc.addImage(require(`@/assets/images/${item.filename}`), "JPEG", 15, 30, 180, 120);
-			doc.addPage()
-		})
-		// Save the PDF
-		doc.save('test.pdf')
-		// Return the PDF as a blob
-		doc.output('blob')
-		},
-	persist: function() {
-		window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected)
-	}
-},
-  mounted() {
-    if (window.localStorage.itemsSelected) {
-      this.itemsSelected = JSON.parse(window.localStorage.itemsSelected);
+    generatePdf: function() {
+      let doc = new jsPDF();
+      this.itemsSelected.forEach(async (item) => {
+        doc.addImage(require(`@/assets/images/${item.filename}`), 'JPEG', 15, 30, 180, 120);
+        doc.addPage()
+      })
+      // Save the PDF
+      doc.save('test.pdf')
+      // Return the PDF as a blob
+      doc.output('blob')
+    },
+    persist: function() {
+      window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected)
     }
   },
-  watch: {
-    itemsSelected(currentSelectedItems) {
-      window.localStorage.itemsSelected = JSON.stringify(currentSelectedItems);
+  mounted() {
+    if (window.localStorage.itemsSelected) {
+      this.itemsSelected = JSON.parse(window.localStorage.itemsSelected)
     }
   }
 }
@@ -136,5 +164,8 @@ export default {
 		right: 1rem;
 		top: 0;
 		bottom: 0;
+	}
+	.dayplanner-ghost {
+		background-color: #ccc;
 	}
 </style>
