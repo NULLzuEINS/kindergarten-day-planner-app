@@ -13,6 +13,7 @@
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
+					handle=".dayplanner-handle"
 					:list="itemsAvailable"
 					:group="{
             name: 'dayplanner',
@@ -24,7 +25,8 @@
 				>
 					<template #item="{ element }">
 						<li class="dayplanner-item dayplanner-item--grab">
-							{{ element.description }}
+							<span class="dayplanner-handle fa fa-align-justify"></span>
+              <span class="dayplanner-text">{{ element.description }}</span>
 						</li>
 					</template>
 				</draggable>
@@ -46,7 +48,7 @@
 					<template #item="{ element, index }">
 						<li class="dayplanner-item">
 							<span class="dayplanner-handle fa fa-align-justify"></span>
-							<span class="text">{{ element.description }} </span>
+							<span class="dayplanner-text">{{ element.description }} </span>
 							<span
 								class="dayplanner-delete fa fa-times"
 								@click="removeFromSelected(index)"
@@ -269,11 +271,7 @@ export default {
 		cursor: pointer;
 	}
 
-	input {
-		display: inline-block;
-		width: 50%;
-	}
-	.text {
+	.dayplanner-text {
 		margin: 20px;
 	}
   .dayplanner-button {
