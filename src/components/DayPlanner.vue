@@ -95,7 +95,7 @@ export default {
       // Add two images on every page.
       this.itemsSelected.forEach(async (item, index) => {
         let top = 20;
-        if (index % 2 === 0) {
+        if (index % 2 !== 0) {
            top = 155
         }
         doc.addImage(
@@ -107,7 +107,7 @@ export default {
           120
         );
 
-        if (index % 2 === 1 && index !== this.itemsSelected.length - 1) {
+        if (index % 2 !== 0 && index !== this.itemsSelected.length - 1) {
           doc.addPage();
         }
       });
