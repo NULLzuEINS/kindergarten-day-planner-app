@@ -1,9 +1,24 @@
-# kindergarten-day-planner-app
+# dayplanner-app
 
-## Development
-
-```bash
-yarn
-yarn dev
-open http://localhost:3000
+## Project setup
 ```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
