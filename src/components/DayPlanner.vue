@@ -58,7 +58,7 @@
 		</div>
 	</div>
 	<hr />
-	<button class="dayplanner-button" @click="generatePdf()">generate PDF</button>
+	<button class="dayplanner-button" @click="generatePdf()">PDF erstellen</button>
 </template>
 
 <script>
