@@ -7,7 +7,7 @@
 	>
 		<div class="dayplanner-row">
 			<div class="dayplanner-col">
-				<h3>None selected</h3>
+				<h3>Verfügbare Tagespunkte</h3>
 				<draggable
 					tag="ul"
 					class="dayplanner-group"
@@ -31,7 +31,7 @@
 			</div>
 
 			<div class="dayplanner-col">
-				<h3>Selected</h3>
+				<h3>Ausgewählte Tagespunkte</h3>
 				<draggable
 					tag="ol"
 					:list="itemsSelected"
