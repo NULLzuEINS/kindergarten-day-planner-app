@@ -87,9 +87,8 @@ export default {
         title: 'KiTa Tagesplaner',
         subject: 'KiTa Tagesplaner mit Bildern',
         author: 'Sarah Girlich',
-        producer: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)',
-        keywords: 'KiTa',
-        creator: 'NULLzuEINS Inh. André Lademann'
+        keywords: 'KiTa,NULLzuEINS,Tagesplaner',
+        creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)'
       });
 
       // Add two images on every page.
