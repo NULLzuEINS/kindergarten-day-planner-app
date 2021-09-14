@@ -8934,7 +8934,7 @@ vue-hot-reload-api@^2.3.0:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
-vue-loader@^15.9.2:
+vue-loader@15.9.8, vue-loader@^15.9.2:
   version "15.9.8"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.9.8.tgz#4b0f602afaf66a996be1e534fb9609dc4ab10e61"
   integrity sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==
@@ -8958,7 +8958,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^3.0.0:
+vue@^3.0.1:
   version "3.2.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.11.tgz#6b92295048df705ddac558fd3e3ed553e55e57c8"
   integrity sha512-JkI3/eIgfk4E0f/p319TD3EZgOwBQfftgnkRsXlT7OrRyyiyoyUXn6embPGZXSBxD3LoZ9SWhJoxLhFh5AleeA==
