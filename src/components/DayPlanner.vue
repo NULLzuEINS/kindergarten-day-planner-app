@@ -13,7 +13,6 @@
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
-					handle=".dayplanner-handle"
 					:list="itemsAvailable"
 					:group="{
             name: 'dayplanner',
