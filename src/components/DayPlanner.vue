@@ -58,7 +58,7 @@
 		</div>
 	</div>
 	<hr />
-	<button @click="generatePdf()">generate PDF</button>
+	<button class="dayplanner-button" @click="generatePdf()">generate PDF</button>
 </template>
 
 <script>
@@ -137,7 +137,7 @@ export default {
 	:root {
 		--color-primary: #00bcd4;
 		--color-secondary: #ff4081;
-		--color-tertiary: #ff4081;
+		--color-tertiary: #a3204c;
 		--color-gray: #f5f5f5;
 		--color-gray-light: #eaeaea;
 		--color-gray-dark: #9b9b9b;
@@ -277,4 +277,21 @@ export default {
 	.text {
 		margin: 20px;
 	}
+  .dayplanner-button {
+    background-color: var(--color-primary);
+    color: #fff;
+    font-size: large;
+    font-weight: bold;
+    padding: var(--padding-base);
+    border-radius: 6px;
+    border: var(--color-gray-light) solid 4px;
+    margin: var(--padding-base);
+    cursor: pointer;
+  }
+  .dayplanner-button:hover {
+    background-color: var(--color-secondary);
+  }
+  .dayplanner-button:active {
+    background-color: var(--color-tertiary);
+  }
 </style>

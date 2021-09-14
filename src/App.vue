@@ -1,5 +1,4 @@
 <template>
-  Component:
   <DayPlanner  />
 </template>
 
