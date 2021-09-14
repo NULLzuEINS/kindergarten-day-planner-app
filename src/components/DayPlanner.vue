@@ -12,11 +12,11 @@
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
 					:list="itemsAvailable"
-          :group="{ name: 'dayplanner', pull: 'clone', put: false }"
+					:group="{ name: 'dayplanner', pull: 'clone', put: false , sort: false}"
 					itemKey="id"
 				>
 					<template #item="{ element }">
-						<div class="dayplanner-item">
+						<div class="dayplanner-item dayplanner-item--grab">
 							{{ element.description }}
 							<img
 								:src="require(`@/assets/images/${element.filename}`)"
@@ -30,30 +30,30 @@
 			<div class="dayplanner-col">
 				<h3>Selected</h3>
 				<draggable
-					class="dayplanner-group"
-					ghost-class="dayplanner-ghost"
-					chosen-class="dayplanner-choosen"
+					tag="ol"
 					:list="itemsSelected"
-					group="dayplanner"
-					@change="persist"
-					itemKey="id">
-					<template #item="{ element }">
-						<div class="dayplanner-item">{{ element.description }}</div>
-					</template>
-				</draggable>
-			</div>
-			<div class="dayplanner-col">
-				<h3>Bin</h3>
-				<draggable
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
-          :group="{ name: 'dayplanner', pull: true, put: true }"
-          :list="itemsDeleted"
+					group="dayplanner"
+					handle=".handle"
 					@change="persist"
-					itemKey="id">
-					<template #item="{ element }">
-						<div class="dayplanner-item">{{ element.description }}</div>
+					item-key="id"
+				>
+					<template #item="{ element,index }">
+						<li class="dayplanner-item">
+							<span class="fa fa-align-justify handle"></span>
+							<span class="text">{{ element.description }} </span>
+							<input
+								type="text"
+								class="form-control"
+								v-model="element.description"
+							/>
+							<span
+								class="fa fa-times close"
+								@click="removeFromSelected(index)"
+							></span>
+						</li>
 					</template>
 				</draggable>
 			</div>
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     generatePdf: function() {
-      let doc = new jsPDF();
+      const doc = new jsPDF()
       this.itemsSelected.forEach(async (item) => {
         doc.addImage(require(`@/assets/images/${item.filename}`), 'JPEG', 15, 30, 180, 120);
         doc.addPage()
@@ -109,8 +109,12 @@ export default {
       doc.output('blob')
     },
     persist: function() {
-      window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected)
-    }
+      localStorage.itemsSelected = JSON.stringify(this.itemsSelected)
+    },
+    removeFromSelected(index) {
+      this.itemsSelected.splice(index, 1);
+      this.persist()
+    },
   },
   mounted() {
     if (window.localStorage.itemsSelected) {
@@ -122,37 +126,68 @@ export default {
 
 
 <style scoped lang="css">
+	:root {
+		--color-primary: #00bcd4;
+		--color-secondary: #ff4081;
+		--color-tertiary: #ff4081;
+		--color-gray: #f5f5f5;
+		--color-gray-light: #eaeaea;
+		--color-gray-dark: #9b9b9b;
+		--color-gray-light-dark: #737373;
+		--color-gray-light-light: #d3d3d3;
+		--font-family: "Roboto", sans-serif;
+		--font-size-base: 16px;
+		--font-size-sm: 12px;
+		--font-size-lg: 20px;
+		--font-size-xlg: 24px;
+		--font-size-xxlg: 32px;
+		--padding-base: 16px;
+		--padding-sm: 8px;
+		--padding-lg: 16px;
+		--padding-xlg: 24px;
+		--padding-xxlg: 32px;
+		--padding-xxxlg: 48px;
+	}
 	.dayplanner {
 		border: red solid 1px;
 	}
 	.dayplanner-row {
 		display: grid;
 		grid-auto-flow: column;
+		gap: var(--padding-base);
 	}
 	.dayplanner-col {
 		flex: 1;
 		height: 100%;
-		border: 1px solid #ccc;
+		border: 1px solid var(--color-gray);
 	}
 
 	.dayplanner-group {
-		border: 1px solid #ccc;
+		border: 1px solid var(--color-gray-light);
 		min-height: 100px;
 		min-width: 100px;
-		background-color: #eee;
-		padding: 10px 10px 42px;
+		background-color: var(--color-gray-light-light);
+		padding: var(--padding-base) var(--padding-base) var(--padding-xxxlg);
 	}
 	.dayplanner-item {
+		cursor: draggable;
 		padding: 10px;
 		border: 1px solid #ccc;
 		margin: 5px;
 		background-color: #eee;
-		cursor: grab;
 		position: relative;
 	}
-	.dayplanner-item:active {
-		cursor: grabbing;
+	.dayplanner-item--grab {
+		cursor: grab;
 	}
+	.dayplanner-choosen,
+  .dayplanner-ghost,
+  .dayplanner-item--grab:active {
+		cursor: grabbing !important;
+	}
+	.dayplanner-choosen {
+    border: #ff4081 solid 1px;
+  }
 	.dayplanner-item > input {
 		width: 6em;
 		line-height: 1;
@@ -167,5 +202,55 @@ export default {
 	}
 	.dayplanner-ghost {
 		background-color: #ccc;
+	}
+
+	.button {
+		margin-top: 35px;
+	}
+	ol {
+		list-style: none;
+	}
+	ol > li {
+		position: relative;
+		display: block;
+		padding: 0.5rem;
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+		border-radius: 0.25rem;
+		background-color: #eee;
+		border: 1px solid #ccc;
+	}
+	.handle::before:active {
+		cursor: grabbing;
+	}
+	.handle::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		content: "☰";
+		cursor: grab;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		border: magenta solid 1px;
+		width: 2rem;
+		height: 2rem;
+	}
+	.close::after {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		content: "⌫";
+		width: 2rem;
+		height: 2rem;
+		border: red solid 1px;
+	}
+	input {
+		display: inline-block;
+		width: 50%;
+	}
+	.text {
+		margin: 20px;
 	}
 </style>

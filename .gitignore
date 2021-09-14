@@ -2,8 +2,10 @@
 
 !/public
 !/src
+!/.editorconfig
 !/.gitignore
 !/babel.config.js
+!/jsconfig.json
 !/LICENSE
 !/package.json
 !/README.md
