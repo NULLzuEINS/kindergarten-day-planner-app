@@ -1,30 +1,28 @@
 <template>
-	<h1>KiTa Tageslanner</h1>
-	<p>Erstellen Sie sich ihren eigenen Tagsplaner. Schieben sie dazu alle Tagespunkt von der linken- auf die rechte Seite! Wenn sie feertig sind, drücken sie auf "PDF erstellen".</p>
-	<div
-		class="dayplanner"
-		ref="testHtml"
-	>
+	<h1>KiTa Tagesplaner</h1>
+	<p>Erstellen Sie sich ihren eigenen Tagesplaner. Schieben Sie dazu alle Tagespunkt von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
+	<div class="dayplanner">
 		<div class="dayplanner-row">
 			<div class="dayplanner-col">
 				<h3>Verfügbare Tagespunkte</h3>
 				<draggable
-					tag="ul"
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
+					tag="ul"
 					:list="itemsAvailable"
 					:group="{
-            name: 'dayplanner',
-            pull: 'clone',
-            put: false,
-            sort: false,
-          }"
-					itemKey="id"
+                                        name: 'dayplanner',
+                                        pull: 'clone',
+                                        put: false,
+                                        sort: false,
+                                    }"
+					item-key="id"
 				>
 					<template #item="{ element }">
 						<li class="dayplanner-item dayplanner-item--grab">
-							{{ element.description }}
+							<span class="dayplanner-handle"></span>
+							<span class="dayplanner-text">{{ element.description }}</span>
 						</li>
 					</template>
 				</draggable>
@@ -33,22 +31,22 @@
 			<div class="dayplanner-col">
 				<h3>Ausgewählte Tagespunkte</h3>
 				<draggable
-					tag="ol"
-					:list="itemsSelected"
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
 					group="dayplanner"
 					handle=".dayplanner-handle"
+					tag="ol"
 					@change="persist"
+					:list="itemsSelected"
 					item-key="id"
 				>
 					<template #item="{ element, index }">
 						<li class="dayplanner-item">
-							<span class="dayplanner-handle fa fa-align-justify"></span>
-							<span class="text">{{ element.description }} </span>
+							<span class="dayplanner-handle"></span>
+							<span class="dayplanner-text">{{ element.description }} </span>
 							<span
-								class="dayplanner-delete fa fa-times"
+								class="dayplanner-delete"
 								@click="removeFromSelected(index)"
 							></span>
 						</li>
@@ -58,6 +56,7 @@
 		</div>
 	</div>
 	<hr />
+
 	<button class="dayplanner-button" @click="generatePdf()">PDF erstellen</button>
 </template>
 
@@ -77,7 +76,6 @@ export default {
       itemsSelected: [],
     };
   },
-
   methods: {
     generatePdf: function () {
       const itemIds = this.itemsSelected.map((item) => item.id);
@@ -132,8 +130,8 @@ export default {
 </script>
 
 
-<style  lang="css">
-	:root {
+<style lang="css" scoped>
+	.dayplanner {
 		--color-primary: #00bcd4;
 		--color-secondary: #ff4081;
 		--color-tertiary: #a3204c;
@@ -269,28 +267,24 @@ export default {
 		cursor: pointer;
 	}
 
-	input {
-		display: inline-block;
-		width: 50%;
-	}
-	.text {
+	.dayplanner-text {
 		margin: 20px;
 	}
-  .dayplanner-button {
-    background-color: var(--color-primary);
-    color: #fff;
-    font-size: large;
-    font-weight: bold;
-    padding: var(--padding-base);
-    border-radius: 6px;
-    border: var(--color-gray-light) solid 4px;
-    margin: var(--padding-base);
-    cursor: pointer;
-  }
-  .dayplanner-button:hover {
-    background-color: var(--color-secondary);
-  }
-  .dayplanner-button:active {
-    background-color: var(--color-tertiary);
-  }
+	.dayplanner-button {
+		background-color: var(--color-primary);
+		color: #fff;
+		font-size: large;
+		font-weight: bold;
+		padding: var(--padding-base);
+		border-radius: 6px;
+		border: var(--color-gray-light) solid 4px;
+		margin: var(--padding-base);
+		cursor: pointer;
+	}
+	.dayplanner-button:hover {
+		background-color: var(--color-secondary);
+	}
+	.dayplanner-button:active {
+		background-color: var(--color-tertiary);
+	}
 </style>
