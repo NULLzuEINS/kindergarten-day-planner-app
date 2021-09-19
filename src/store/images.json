@@ -2,76 +2,106 @@
     {
         "id": 0,
         "filename": "00_unspecified.jpg",
-        "description": "Sonstiges"
+        "description": "Sonstiges",
+        "time" : "08:00",
+        "type": "image"
     },
     {
         "id": 1,
         "filename": "01_ankommen.jpg",
-        "description": "Ankommen"
+        "description": "Ankommen",
+        "time" : "08:00",
+        "type": "image"
     },
     {
         "id": 2,
         "filename": "02_frühstück.jpg",
-        "description": "Frühstück"
+        "description": "Frühstück",
+        "time" : "09:00",
+        "type": "image"
     },
     {
         "id": 3,
         "filename": "03_morgenkreis.jpg",
-        "description": "Morgenkreis"
+        "description": "Morgenkreis",
+        "time" : "09:30",
+        "type": "image"
     },
     {
         "id": 4,
         "filename": "04_draußen.jpg",
-        "description": "Draußen"
+        "description": "Draußen",
+        "time" : "10:00",
+        "type": "image"
     },
     {
         "id": 5,
         "filename": "05_wickeln.jpg",
-        "description": "Wickeln"
+        "description": "Wickeln",
+        "time" : "11:00",
+        "type": "image"
     },
     {
         "id": 6,
         "filename": "06_tanzen.jpg",
-        "description": "Tanzen"
+        "description": "Tanzen",
+        "time" : "11:00",
+        "type": "image"
     },
     {
         "id": 7,
         "filename": "07_lesen.jpg",
-        "description": "Lesen"
+        "description": "Lesen",
+        "time" : "12:00",
+        "type": "image"
     },
     {
         "id": 8,
         "filename": "08_spielen.jpg",
-        "description": "Spielen"
+        "description": "Spielen",
+        "time" : "12:00",
+        "type": "image"
     },
     {
         "id": 9,
         "filename": "09_experimentieren.jpg",
-        "description": "Experiementieren"
+        "description": "Experiementieren",
+        "time" : "12:00",
+        "type": "image"
     },
     {
         "id": 10,
         "filename": "10_mittagessen.jpg",
-        "description": "Mittagessen"
+        "description": "Mittagessen",
+        "time" : "12:30",
+        "type": "image"
     },
     {
         "id": 11,
         "filename": "11_mittagsschlaf.jpg",
-        "description": "Mittagsschlaf"
+        "description": "Mittagsschlaf",
+        "time" : "13:00",
+        "type": "image"
     },
     {
         "id": 12,
         "filename": "12_kitafest.jpg",
-        "description": "Kitafest"
+        "description": "Kitafest",
+        "time" : "14:00",
+        "type": "image"
     },
     {
         "id": 13,
         "filename": "13_elternabend.jpg",
-        "description": "Elternabend"
+        "description": "Elternabend",
+        "time" : "18:00",
+        "type": "image"
     },
     {
         "id": 14,
         "filename": "14_verabschieden.jpg",
-        "description": "Verabschieden"
+        "description": "Verabschieden",
+        "time" : "15:30",
+        "type": "image"
     }
 ]

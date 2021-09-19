@@ -45,6 +45,17 @@
 						<li class="dayplanner-item">
 							<span class="dayplanner-handle"></span>
 							<span class="dayplanner-text">{{ element.description }} </span>
+							<span class="dayplanner-time">
+								<input
+									type="time"
+									step="900"
+									min="06:00"
+									max="20:00"
+									value="{{element.time}}"
+								/>
+								{{ element.time }}
+
+							</span>
 							<span
 								class="dayplanner-delete"
 								@click="removeFromSelected(index)"
@@ -55,9 +66,11 @@
 			</div>
 		</div>
 	</div>
-	<hr />
 
-	<button class="dayplanner-button" @click="generatePdf()">PDF erstellen</button>
+	<button
+		class="dayplanner-button"
+		@click="generatePdf()"
+	>PDF erstellen</button>
 </template>
 
 <script>
