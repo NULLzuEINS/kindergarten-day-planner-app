@@ -1,6 +1,6 @@
 <template>
 	<h1>KiTa Tagesplaner</h1>
-	<p>Erstellen Sie sich ihren eigenen Tagesplaner. Schieben Sie dazu alle Tagespunkt von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
+	<p>Erstellen Sie einen Tagesplan für ihren Kindergarten. Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
 	<div class="dayplanner">
 		<div class="dayplanner-row">
 			<div class="dayplanner-col">
