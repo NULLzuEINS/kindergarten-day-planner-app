@@ -201,7 +201,7 @@ export default {
 	}
 
 	.dayplanner-group {
-		border: 1px solid var(--color-border);
+		border: 1px solid var(--color-background-item-active);
 		min-height: 100px;
 		min-width: 100px;
 		background-color: var(--color-background);

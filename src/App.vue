@@ -35,7 +35,7 @@ export default {
 
 	@media (prefers-color-scheme: dark) {
 		:root {
-			--color-background: var(--color-gray-dark-dark);
+			--color-background: var(--color-gray-dark);
 			--color-text: var(--color-gray-light);
 		}
 	}
