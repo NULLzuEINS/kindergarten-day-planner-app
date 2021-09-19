@@ -55,9 +55,11 @@
 			</div>
 		</div>
 	</div>
-	<hr />
 
-	<button class="dayplanner-button" @click="generatePdf()">PDF erstellen</button>
+	<button
+		class="dayplanner-button"
+		@click="generatePdf()"
+	>PDF erstellen</button>
 </template>
 
 <script>
@@ -131,18 +133,18 @@ export default {
 
 
 <style lang="css" scoped>
-	.dayplanner {
-		--color-primary: #00bcd4;
-		--color-secondary: #ff4081;
-		--color-tertiary: #a3204c;
-		--color-gray: #f5f5f5;
-		--color-gray-light: #eaeaea;
-		--color-gray-dark: #9b9b9b;
-		--color-gray-light-dark: #737373;
-		--color-gray-light-light: #d3d3d3;
-		--color-white: #eee;
-		--color-error: #f44336;
-		--color-warning: #ff9800;
+	.dayplanner,
+	.dayplanner-button {
+		--color-primary: hsl(10, 100%, 58%);
+		--color-secondary: hsl(10, 98%, 38%);
+		--color-gray: hsl(0, 0%, 70%);
+		--color-gray-light: hsl(0, 0%, 86%);
+		--color-gray-light-light: hsl(0, 0%, 90%);
+		--color-gray-dark: hsl(215, 26%, 23%);
+		--color-gray-dark-dark: hsl(206, 72%, 11%);
+		--color-white: hsl(0, 0%, 93%);
+		--color-error: hsl(4, 90%, 58%);
+		--color-warning: hsl(36, 100%, 50%);
 		--font-family: "Roboto", sans-serif;
 		--font-size-base: 16px;
 		--font-size-sm: 12px;
@@ -157,37 +159,75 @@ export default {
 		--padding-xxxlg: 48px;
 		--border-radius-base: 0.25rem;
 	}
-	.dayplanner {
-		background: #eee;
+
+	@media (prefers-color-scheme: light) {
+		.dayplanner,
+		.dayplanner-button {
+			--color-background: var(--color-gray-light-light);
+			--color-background-item: var(--color-gray-light);
+			--color-background-item-active: var(--color-gray);
+			--color-text: var(--color-gray-dark-dark);
+			--color-border: var(--color-gray-light);
+		}
 	}
+
+	@media (prefers-color-scheme: dark) {
+		.dayplanner,
+		.dayplanner-button {
+			--color-gray: #334756;
+			--color-background: var(--color-gray-dark-dark);
+			--color-background-item: var(--color-gray-dark);
+			--color-background-item-active: var(--color-gray);
+			--color-text: var(--color-gray-light);
+			--color-border: var(--color-gray-dark-dark);
+		}
+	}
+
+	.dayplanner {
+		background: var(--color-background);
+		color: var(--color-text);
+	}
+
 	.dayplanner-row {
 		display: grid;
 		grid-auto-flow: column;
 		gap: var(--padding-base);
 	}
+
 	.dayplanner-col {
 		flex: 1;
 		height: 100%;
-		border: 1px solid var(--color-gray);
+		border: 1px solid var(--color-border);
 	}
+
 	.dayplanner-group {
-		border: 1px solid var(--color-gray-light);
+		border: 1px solid var(--color-border);
 		min-height: 100px;
 		min-width: 100px;
-		background-color: var(--color-gray-light-light);
+		background-color: var(--color-background);
 		padding: var(--padding-base) var(--padding-base) var(--padding-xxxlg);
 	}
+
 	.dayplanner-item {
 		cursor: draggable;
 		padding: 10px;
-		border: 1px solid #ccc;
+		border: 1px solid var(--color-border);
 		margin: 5px;
-		background-color: #eee;
+		background-color: var(--color-background-item);
 		position: relative;
 	}
+
 	.dayplanner-item--grab {
 		cursor: grab;
 	}
+
+	.dayplanner-choosen .dayplanner-handle::before {
+		background-color: inherit;
+		&:active {
+			background-color: inherit;
+		}
+	}
+
 	.dayplanner-choosen,
 	.dayplanner-ghost,
 	.dayplanner-item--grab:active {
@@ -200,19 +240,17 @@ export default {
 		height: 1.8em;
 		padding: 0.5em;
 		border: 1px solid #ccc;
-		color: #444;
+		color: var(--color-text);
 		position: absolute;
 		right: 1rem;
 		top: 0;
 		bottom: 0;
 	}
+
 	.dayplanner-ghost {
-		background-color: #ccc;
+		background-color: var(--color-background-item-active);
 	}
 
-	.button {
-		margin-top: 35px;
-	}
 	ol {
 		list-style: none;
 	}
@@ -224,12 +262,13 @@ export default {
 		margin-left: 0.5rem;
 		margin-right: 0.5rem;
 		border-radius: var(--border-radius-base);
-		background-color: #eee;
-		border: 1px solid #ccc;
+		border: 1px solid var(--color-border);
 	}
+
 	.dayplanner-handle::before:active {
 		cursor: grabbing;
 	}
+
 	.dayplanner-handle::before {
 		content: "☰";
 		position: absolute;
@@ -238,10 +277,11 @@ export default {
 		cursor: grab;
 		border: var(--color-gray) solid 1px;
 		border-radius: var(--border-radius-base) 0 0 var(--border-radius-base);
-		background-color: var(--color-gray-light);
+		background-color: var(--color-background-item-active);
 		line-height: 2.5em;
 		width: 3rem;
 	}
+
 	.dayplanner-handle:hover::before {
 		background-color: var(--color-gray-light-dark);
 		color: var(--color-white);
@@ -261,6 +301,7 @@ export default {
 		background-color: #ea333322;
 		width: 3rem;
 	}
+
 	.dayplanner-delete:hover::after {
 		background-color: var(--color-error);
 		color: var(--color-white);
@@ -270,20 +311,23 @@ export default {
 	.dayplanner-text {
 		margin: 20px;
 	}
+
 	.dayplanner-button {
 		background-color: var(--color-primary);
-		color: #fff;
+		color: var(--color-text);
 		font-size: large;
 		font-weight: bold;
 		padding: var(--padding-base);
 		border-radius: 6px;
-		border: var(--color-gray-light) solid 4px;
 		margin: var(--padding-base);
+		border: #33333355 solid 4px;
 		cursor: pointer;
 	}
+
 	.dayplanner-button:hover {
 		background-color: var(--color-secondary);
 	}
+
 	.dayplanner-button:active {
 		background-color: var(--color-tertiary);
 	}
