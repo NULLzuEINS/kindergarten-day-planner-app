@@ -4,7 +4,7 @@
 	<div class="dayplanner">
 		<div class="dayplanner-row">
 			<div class="dayplanner-col">
-				<h3>Verfügbare Tagespunkte</h3>
+				<p>Verfügbare Tagespunkte</p>
 				<draggable
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
@@ -21,7 +21,6 @@
 				>
 					<template #item="{ element }">
 						<li class="dayplanner-item dayplanner-item--grab">
-							<span class="dayplanner-handle"></span>
 							<span class="dayplanner-text">{{ element.description }}</span>
 						</li>
 					</template>
@@ -29,7 +28,7 @@
 			</div>
 
 			<div class="dayplanner-col">
-				<h3>Ausgewählte Tagespunkte</h3>
+				<p>Ausgewählte Tagespunkte</p>
 				<draggable
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
@@ -146,18 +145,13 @@ export default {
 		--color-error: hsl(4, 90%, 58%);
 		--color-warning: hsl(36, 100%, 50%);
 		--font-family: "Roboto", sans-serif;
-		--font-size-base: 16px;
-		--font-size-sm: 12px;
-		--font-size-lg: 20px;
-		--font-size-xlg: 24px;
-		--font-size-xxlg: 32px;
 		--padding-base: 16px;
 		--padding-sm: 14px;
 		--padding-lg: 16px;
 		--padding-xlg: 24px;
 		--padding-xxlg: 32px;
 		--padding-xxxlg: 48px;
-		--border-radius-base: 0.25rem;
+		--border-radius-base: 0.25em;
 	}
 
 	@media (prefers-color-scheme: light) {
@@ -278,8 +272,8 @@ export default {
 		border: var(--color-gray) solid 1px;
 		border-radius: var(--border-radius-base) 0 0 var(--border-radius-base);
 		background-color: var(--color-background-item-active);
-		line-height: 2.5em;
-		width: 3rem;
+		line-height: 3em;
+		width: 3em;
 	}
 
 	.dayplanner-handle:hover::before {
@@ -293,13 +287,13 @@ export default {
 		top: 0;
 		right: 0;
 		padding: var(--padding-md);
-		line-height: 2.5rem;
+		line-height: 3em;
 		border: var(--color-gray) solid 1px;
 		border-radius: 0 var(--border-radius-base) var(--border-radius-base) 0;
 		color: var(--color-error);
 		font-weight: 900;
 		background-color: #ea333322;
-		width: 3rem;
+		width: 3em;
 	}
 
 	.dayplanner-delete:hover::after {
@@ -309,7 +303,7 @@ export default {
 	}
 
 	.dayplanner-text {
-		margin: 20px;
+		line-height: 1.9em;
 	}
 
 	.dayplanner-button {
@@ -330,5 +324,25 @@ export default {
 
 	.dayplanner-button:active {
 		background-color: var(--color-tertiary);
+	}
+
+	/* breakpoint for iphone 12 */
+	@media screen and (max-width: 576px) {
+		.dayplanner {
+			font-size: 70%;
+		}
+		.dayplanner-row {
+			gap: 0;
+		}
+		.dayplanner-group {
+			border: none;
+			padding: 0;
+		}
+		.dayplanner-delete::after {
+			width: 3em;
+		}
+		.dayplanner-text {
+			line-height: 1.5em;
+		}
 	}
 </style>
