@@ -90,11 +90,32 @@ export default {
         creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)'
       });
 
+      // Add header image
+      doc.addImage(
+          require(`@/assets/logos/logo_lakos.png`),
+          "PNG",
+          135,
+          7,
+          64,
+          18
+        );
+
+      // Add footer image
+      doc.addImage(
+        require(`@/assets/logos/logo_sachsen.png`),
+        "GIF",
+        12,
+        doc.internal.pageSize.height - 30,
+        64,
+        18
+      );
+
+
       // Add two images on every page.
       this.itemsSelected.forEach(async (item, index) => {
-        let top = 20;
+        let top = 28;
         if (index % 2 !== 0) {
-           top = 155
+           top = 150
         }
         doc.addImage(
           require(`@/assets/images/${item.filename}`),
@@ -104,9 +125,9 @@ export default {
           180,
           120
         );
-
         if (index % 2 !== 0 && index !== this.itemsSelected.length - 1) {
           doc.addPage();
+
         }
       });
       // Save the PDF
