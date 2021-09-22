@@ -58,7 +58,7 @@
 	<button
 		class="dayplanner-button"
 		@click="generatePdf()"
-	>PDF erstellen</button>
+	>Tagesplaner drucken</button>
 </template>
 
 <script>
