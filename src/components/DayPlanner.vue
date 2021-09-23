@@ -108,10 +108,10 @@ export default {
         doc.addImage(
           require(`@/assets/logos/logo_sachsen.png`),
           "PNG",
-          12,
+          15,
           doc.internal.pageSize.height - 26,
-          75,
-          18
+          50,
+          14
         );
         }
 
