@@ -1,12 +1,40 @@
 <template>
-	<h1>KiTa Tagesplaner</h1>
+	<h1 class="text-center">KiTa Tagesplaner</h1>
 	<p>Erstellen Sie einen Tagesplan für ihren Kindergarten. Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
-	<div class="dayplanner">
+
+	<section class="dayplanner">
+		<h2>Wählen sie ein Layout</h2>
+
+		<ul class="layout-selector">
+			<li
+				v-for="layout in layouts"
+				:key="layout.id"
+				class="layout-selector-item"
+			>
+				<input
+					type="radio"
+					name="layout"
+					:checked="layout.checked"
+					:id="layout.id"
+				>
+				<label :for="layout.id">
+					<img
+						:src="layout.preview"
+						width="80"
+						:title="layout.description"
+						:alt="layout.description"
+					></label>
+			</li>
+		</ul>
+	</section>
+
+	<section class="dayplanner">
+		<h2>Wählen sie die Tagesordnungspunkte</h2>
 		<div class="dayplanner-row">
 			<div class="dayplanner-col">
-				<p>Verfügbare Tagespunkte</p>
+				<h3>Verfügbare Tagespunkte</h3>
 				<draggable
-					class="dayplanner-group"
+					class="dayplanner-group dayplanner-group-available"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
 					tag="ul"
@@ -20,15 +48,27 @@
 					item-key="id"
 				>
 					<template #item="{ element }">
-						<li class="dayplanner-item dayplanner-item--grab">
-							<span class="dayplanner-text">{{ element.description }}</span>
+						<li class="dayplanner-item">
+							<button class="dayplanner-item-btn dayplanner-item-btn--handle">☰</button>
+							<details class="dayplanner-text">
+								<summary>{{ element.description }}</summary>
+								<p>
+									<img
+										:src="require(`@/assets/images/${element.filename}`)"
+										height="150"
+										:alt="element.description"
+										loading="lazy"
+									/>
+								</p>
+							</details>
+							<button class="dayplanner-item-btn dayplanner-item-btn--delete">⌫</button>
 						</li>
 					</template>
 				</draggable>
 			</div>
 
 			<div class="dayplanner-col">
-				<p>Ausgewählte Tagespunkte</p>
+				<h3>Ausgewählte Tagespunkte</h3>
 				<draggable
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
@@ -42,18 +82,28 @@
 				>
 					<template #item="{ element, index }">
 						<li class="dayplanner-item">
-							<span class="dayplanner-handle"></span>
-							<span class="dayplanner-text">{{ element.description }} </span>
-							<span
-								class="dayplanner-delete"
+							<button class="dayplanner-item-btn dayplanner-item-btn--handle">☰</button>
+							<details class="dayplanner-text">
+								<summary>{{ element.description }}</summary>
+								<p>
+									<img
+										:src="require(`@/assets/images/${element.filename}`)"
+										height="150"
+										:alt="element.description"
+										loading="lazy"
+									/>
+								</p>
+							</details>
+							<button
 								@click="removeFromSelected(index)"
-							></span>
+								class="dayplanner-item-btn dayplanner-item-btn--delete"
+							>⌫</button>
 						</li>
 					</template>
 				</draggable>
 			</div>
 		</div>
-	</div>
+	</section>
 
 	<button
 		class="dayplanner-button"
@@ -75,6 +125,48 @@ export default {
     return {
       itemsAvailable: images,
       itemsSelected: [],
+      layouts: [
+        {
+          id: "a4-2",
+          preview: require("@/assets/layouts/A4-2.png"),
+          description: "A4 Format mit zwei großen Bildern.",
+          checked: true,
+          width: 210,
+          height: 297,
+          margin: {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          },
+        },
+        {
+          id: "a4-4",
+          preview: require("@/assets/layouts/A4-4.png"),
+          description: "A4 Querformat mit vier Bildern.",
+          width: 297,
+          height: 420,
+          margin: {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          },
+        },
+        {
+          id: "a4-6",
+          preview: require("@/assets/layouts/A4-6.png"),
+          description: "A4 Format mit sechs Bildern.",
+          width: 420,
+          height: 595,
+          margin: {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          },
+        },
+      ],
     };
   },
   methods: {
@@ -153,68 +245,65 @@ export default {
 };
 </script>
 
-
-<style lang="css" scoped>
-	.dayplanner,
-	.dayplanner-button {
-		--color-primary: hsl(10, 100%, 58%);
-		--color-secondary: hsl(10, 98%, 38%);
-		--color-gray: hsl(0, 0%, 70%);
-		--color-gray-light: hsl(0, 0%, 86%);
-		--color-gray-light-light: hsl(0, 0%, 90%);
-		--color-gray-dark: hsl(215, 26%, 23%);
-		--color-gray-dark-dark: hsl(206, 72%, 11%);
-		--color-white: hsl(0, 0%, 93%);
-		--color-error: hsl(4, 90%, 58%);
-		--color-warning: hsl(36, 100%, 50%);
-		--font-family: "Roboto", sans-serif;
-		--padding-base: 16px;
-		--padding-sm: 14px;
-		--padding-lg: 16px;
-		--padding-xlg: 24px;
-		--padding-xxlg: 32px;
-		--padding-xxxlg: 48px;
-		--border-radius-base: 0.25em;
+<style lang="css" >
+	.layout-selector {
+		list-style: none;
+		padding: 0;
+		margin: 0;
 	}
 
-	@media (prefers-color-scheme: light) {
-		.dayplanner,
-		.dayplanner-button {
-			--color-background: var(--color-gray-light-light);
-			--color-background-item: var(--color-gray-light);
-			--color-background-item-active: var(--color-gray);
-			--color-text: var(--color-gray-dark-dark);
-			--color-border: var(--color-gray-light);
-		}
+	/* List horizontal */
+	.layout-selector-item {
+		display: inline-block;
+		margin: 0 1em;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		.dayplanner,
-		.dayplanner-button {
-			--color-gray: #334756;
-			--color-background: var(--color-gray-dark-dark);
-			--color-background-item: var(--color-gray-dark);
-			--color-background-item-active: var(--color-gray);
-			--color-text: var(--color-gray-light);
-			--color-border: var(--color-gray-dark-dark);
-		}
+	.layout-selector input[type="radio"] {
+		opacity: 0;
+		position: fixed;
+		width: 0;
 	}
+
+	.layout-selector label {
+		display: inline-block;
+		background-color: var(--color-white);
+		padding: 0.3em;
+		border: 2px solid var(--color-gray-dark);
+		border-radius: var(--border-radius-base);
+		cursor: pointer;
+	}
+
+	.layout-selector label:hover {
+		background-color: var(--color-primary);
+	}
+
+	.layout-selector input[type="radio"]:focus + label {
+		border: 2px dashed #444;
+	}
+
+	.layout-selector input[type="radio"]:checked + label {
+		background-color: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+
+	/* :::::::::::::::::::::::::::::::::: Dayplanner :::::::::::::::::::::::::::::::::: */
 
 	.dayplanner {
 		background: var(--color-background);
 		color: var(--color-text);
+		padding: 0 1rem;
 	}
 
 	.dayplanner-row {
 		display: grid;
 		grid-auto-flow: column;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr;
 		gap: var(--padding-base);
 	}
 
-	.dayplanner-col {
-		flex: 1;
-		height: 100%;
-		border: 1px solid var(--color-border);
+	.dayplanner-col > h3 {
+		margin-left: 1.4em;
 	}
 
 	.dayplanner-group {
@@ -226,23 +315,75 @@ export default {
 	}
 
 	.dayplanner-item {
+		display: grid;
+		grid-template-columns: 0fr 3fr 0fr;
+		gap: 1em;
+		grid-template-areas: "handle title delete";
+		align-items: start;
+
 		cursor: draggable;
-		padding: 10px;
 		border: 1px solid var(--color-border);
-		margin: 5px;
+		border-radius: var(--border-radius-base);
 		background-color: var(--color-background-item);
-		position: relative;
+		margin-bottom: 0.25em;
 	}
 
-	.dayplanner-item--grab {
+	.dayplanner-item button,
+	.dayplanner-item details {
+		padding: 1em 1em;
+		font-size: 1rem;
+		line-height: 1rem;
+		color: var(--color-text);
+		border: transparent solid 1px;
+	}
+
+	.dayplanner-item-btn {
+		border: var(--color-gray-light) solid 1px;
+		padding: calc(1em + 12px) 1em;
+		font-size: 1rem;
+		background: transparent;
+		cursor: pointer;
+	}
+
+	.dayplanner-item-btn:hover {
+		background: var(--color-gray-light);
+		color: var(--color-text-dark);
+	}
+
+	.dayplanner-item-btn:first-child {
+		border-radius: var(--border-radius-base) 0 0 var(--border-radius-base);
+	}
+	.dayplanner-item-btn:last-child {
+		border-radius: 0 var(--border-radius-base) var(--border-radius-base) 0;
+	}
+
+	.dayplanner-item-btn--delete {
+		background-color: var(--color-error);
+		color: var(--color-white);
+		border-color: var(--color-white);
+	}
+	.zzzdayplanner-item--grab {
 		cursor: grab;
+	}
+
+	.zzz-dayplanner-group-available {
+		display: grid;
+		grid-template-columns: 1fr max-content 1fr 1fr;
+		grid-template-rows: 4rem;
+		grid-column-gap: 10px;
+		grid-row-gap: 10px;
+	}
+
+	.zzz-dayplanner-group-available .dayplanner-item {
+		grid-area: 1 / 4 / 2 / 5;
 	}
 
 	.dayplanner-choosen .dayplanner-handle::before {
 		background-color: inherit;
-		&:active {
-			background-color: inherit;
-		}
+	}
+
+	.dayplanner-choosen .dayplanner-handle::before:active {
+		background-color: inherit;
 	}
 
 	.dayplanner-choosen,
@@ -268,25 +409,11 @@ export default {
 		background-color: var(--color-background-item-active);
 	}
 
-	ol {
-		list-style: none;
-	}
-	ol > li,
-	ul > li {
-		position: relative;
-		display: block;
-		padding: 0.5rem;
-		margin-left: 0.5rem;
-		margin-right: 0.5rem;
-		border-radius: var(--border-radius-base);
-		border: 1px solid var(--color-border);
-	}
-
-	.dayplanner-handle::before:active {
+	.zzzdayplanner-handle::before:active {
 		cursor: grabbing;
 	}
 
-	.dayplanner-handle::before {
+	.zzzdayplanner-handle::before {
 		content: "☰";
 		position: absolute;
 		top: 0;
@@ -299,12 +426,12 @@ export default {
 		width: 3em;
 	}
 
-	.dayplanner-handle:hover::before {
+	.zzzdayplanner-handle:hover::before {
 		background-color: var(--color-gray-light-dark);
 		color: var(--color-white);
 	}
 
-	.dayplanner-delete::after {
+	.zzzdayplanner-delete::after {
 		content: "⌫";
 		position: absolute;
 		top: 0;
@@ -319,14 +446,26 @@ export default {
 		width: 3em;
 	}
 
-	.dayplanner-delete:hover::after {
+	.zzzdayplanner-delete:hover::after {
 		background-color: var(--color-error);
 		color: var(--color-white);
 		cursor: pointer;
 	}
 
 	.dayplanner-text {
-		line-height: 1.9em;
+		line-height: 2.15em;
+	}
+
+	.dayplanner-text summary::marker {
+		color: var(--color-text);
+		cursor: pointer !important;
+	}
+	.dayplanner-text summary + p {
+		line-height: 1.2em;
+		outline: var(--color-gray-dark-dark) dotted 1px;
+		outline-offset: 0.6em;
+		margin-top: 1.8em;
+    text-align: center;
 	}
 
 	.dayplanner-button {

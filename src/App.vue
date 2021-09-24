@@ -14,6 +14,8 @@ export default {
 </script>
 
 <style>
+	@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
+
 	:root {
 		--color-primary: hsl(10, 100%, 58%);
 		--color-secondary: hsl(10, 98%, 38%);
@@ -25,30 +27,58 @@ export default {
 		--color-white: hsl(0, 0%, 93%);
 		--color-error: hsl(4, 90%, 58%);
 		--color-warning: hsl(36, 100%, 50%);
-	}
-	@media (prefers-color-scheme: light) {
-		:root {
-			--color-background: var(--color-gray-light-light);
-			--color-text: var(--color-gray-dark-dark);
-		}
+		--font-family: "Roboto", sans-serif;
+		--padding-base: 16px;
+		--padding-sm: 14px;
+		--padding-lg: 16px;
+		--padding-xlg: 24px;
+		--padding-xxlg: 32px;
+		--padding-xxxlg: 48px;
+		--border-radius-base: 0.25em;
+
+		--color-background: var(--color-gray-light-light);
+		--color-background-item: var(--color-gray-light);
+		--color-background-item-active: var(--color-gray);
+		--color-text: var(--color-gray-dark-dark);
+		--color-text-inverted: var(--color-white);
+		--color-border: var(--color-gray-light);
 	}
 
-	@media (prefers-color-scheme: dark) {
+	@media (prefers-color-scheme: darka) {
 		:root {
-			--color-background: var(--color-gray-dark);
+			--color-gray: #334756;
+			--color-background: var(--color-gray-dark-dark);
+			--color-background-item: var(--color-gray-dark);
+			--color-background-item-active: var(--color-gray);
 			--color-text: var(--color-gray-light);
+			--color-text-inverted: var(--color-gray-dark-dark);
+			--color-border: var(--color-gray-dark-dark);
 		}
 	}
 
 	body {
 		color: var(--color-text);
 		background-color: var(--color-background);
+		font-family: "Comic Neue", cursive;
+		counter-reset: section;
 	}
+
+	h2 {
+		line-height: 2em;
+	}
+
+	h2::before {
+		counter-increment: section;
+		content: counter(section) ". ";
+	}
+
 	#app {
-		font-family: Avenir, Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		text-align: center;
 		margin-top: 60px;
+	}
+
+	.text-center {
+		text-align: center;
 	}
 </style>
