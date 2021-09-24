@@ -287,7 +287,6 @@ export default {
 	}
 
 	/* :::::::::::::::::::::::::::::::::: Dayplanner :::::::::::::::::::::::::::::::::: */
-
 	.dayplanner {
 		background: var(--color-background);
 		color: var(--color-text);
@@ -350,8 +349,8 @@ export default {
 	}
 
 	.dayplanner-item-btn:hover {
-		background: var(--color-gray-light);
-		color: var(--color-text-dark);
+		background: var(--color-text-inverted);
+		color: var(--color-text);
 	}
 
 	.dayplanner-item-btn:first-child {
