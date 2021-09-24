@@ -106,7 +106,7 @@
 	</section>
 
 	<button
-		class="dayplanner-button"
+		class="dayplanner-button text-center"
 		@click="generatePdf()"
 	>Tagesplaner drucken</button>
 </template>
@@ -317,8 +317,8 @@ export default {
 	.dayplanner-item {
 		display: grid;
 		grid-template-columns: 0fr 3fr 0fr;
-		gap: 1em;
 		grid-template-areas: "handle title delete";
+		gap: 1em;
 		align-items: start;
 
 		cursor: draggable;
@@ -326,6 +326,10 @@ export default {
 		border-radius: var(--border-radius-base);
 		background-color: var(--color-background-item);
 		margin-bottom: 0.25em;
+	}
+
+	.dayplanner-group-available .dayplanner-item-btn--delete {
+		visibility: hidden;
 	}
 
 	.dayplanner-item button,
@@ -355,6 +359,11 @@ export default {
 	}
 	.dayplanner-item-btn:last-child {
 		border-radius: 0 var(--border-radius-base) var(--border-radius-base) 0;
+	}
+
+	.dayplanner-item-btn--handle {
+		grid-area: handle;
+		cursor: grab;
 	}
 
 	.dayplanner-item-btn--delete {
@@ -465,7 +474,7 @@ export default {
 		outline: var(--color-gray-dark-dark) dotted 1px;
 		outline-offset: 0.6em;
 		margin-top: 1.8em;
-    text-align: center;
+		text-align: center;
 	}
 
 	.dayplanner-button {
