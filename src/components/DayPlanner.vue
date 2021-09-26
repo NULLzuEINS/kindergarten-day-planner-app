@@ -29,9 +29,6 @@
 					></label>
 			</li>
 		</ul>
-		Layout:
-		<pre style="max-height: 15em; overflow-y: scroll"><code>{{layoutSelected}}</code></pre>
-
 	</section>
 
 	<section class="dayplanner">
@@ -138,10 +135,88 @@ export default {
       layoutSelected: "",
       layouts: [
         {
+          id: "a4-6",
+          preview: require("@/assets/layouts/A4-6.png"),
+          description: "A4 Format mit sechs Bildern.",
+          checked: true,
+          page: {
+            format: "a4",
+            orientation: "portrait",
+          },
+          image: {
+            width: 40*2,
+            height: 30*2,
+            positions: [
+              { x: 20, y: 27 },
+              { x: 110, y: 27 },
+              { x: 20, y: 110 },
+              { x: 110, y: 110 },
+              { x: 20, y: 190 },
+              { x: 110, y: 190 },
+            ]
+          },
+          logos: [
+            {
+              x: 127,
+              y: 7,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
+              type: 'PNG'
+            },
+            {
+              x: 18,
+              y: 270,
+              width: 50,
+              height: 14,
+              url: require(`@/assets/logos/logo_sachsen.png`),
+              type: 'PNG'
+            },
+          ]
+        },
+        {
+          id: "a4-4",
+          preview: require("@/assets/layouts/A4-4.png"),
+          description: "A4 Querformat mit vier Bildern.",
+          checked: false,
+          page: {
+            format: "a4",
+            orientation: "landscape",
+          },
+          image: {
+            width: 40 * 4 - 22 *2,
+            height: 30 * 4 - 22 *2,
+            positions: [
+              { x: 25, y: 25 },
+              { x: 155, y: 25 },
+              { x: 25, y:  110  },
+              { x: 155, y:  110  },
+            ]
+          },
+          logos: [
+            {
+              x: 210,
+              y: 5,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
+              type: 'PNG'
+            },
+            {
+              x: 23,
+              y: 190,
+              width: 50,
+              height: 14,
+              url: require(`@/assets/logos/logo_sachsen.png`),
+              type: 'PNG'
+            },
+          ],
+        },
+                {
           id: "a4-2",
           preview: require("@/assets/layouts/A4-2.png"),
           description: "A4 Format mit zwei großen Bildern.",
-          checked: true,
+          checked: false,
           page: {
             format: "a4",
             orientation: "portrait",
@@ -173,84 +248,7 @@ export default {
             },
           ]
         },
-        {
-          id: "a4-4",
-          preview: require("@/assets/layouts/A4-4.png"),
-          description: "A4 Querformat mit vier Bildern.",
-          checked: false,
-          page: {
-            format: "a4",
-            orientation: "landscape",
-          },
-          image: {
-            width: 150,
-            height: 150,
-            positions: [
-              { x: 20, y: 22 },
-              { x: 80, y: 22 },
-              { x: 20, y: 160 },
-              { x: 800, y: 160 },
-            ]
-          },
-          logos: [
-            {
-              x: 135,
-              y: 7,
-              width: 64,
-              height: 18,
-              url: require(`@/assets/logos/logo_lakos.png`),
-              type: 'PNG'
-            },
-            {
-              x: 15,
-              y: 25,
-              width: 50,
-              height: 14,
-              url: require(`@/assets/logos/logo_sachsen.png`),
-              type: 'PNG'
-            },
-          ],
-        },
-        {
-          id: "a4-6",
-          preview: require("@/assets/layouts/A4-6.png"),
-          description: "A4 Format mit sechs Bildern.",
-          checked: false,
-          page: {
-            format: "a4",
-            orientation: "portrait",
-          },
-          image: {
-            width: 40,
-            height: 30,
-            positions: [
-              { x: 20, y: 20 },
-              { x: 60, y: 20 },
-              { x: 90, y: 20 },
-              { x: 20, y: 90 },
-              { x: 60, y: 90 },
-              { x: 90, y: 90 },
-            ]
-          },
-          logos: [
-            {
-              x: 135,
-              y: 7,
-              width: 64,
-              height: 18,
-              url: require(`@/assets/logos/logo_lakos.png`),
-              type: 'PNG'
-            },
-            {
-              x: 15,
-              y: 25,
-              width: 50,
-              height: 14,
-              url: require(`@/assets/logos/logo_sachsen.png`),
-              type: 'PNG'
-            },
-          ],
-        },
+
       ],
     };
   },
@@ -298,17 +296,15 @@ export default {
         creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)',
       });
 
-      // Add two images on every page.
-      let imagesOnPage = 0;
-      this.itemsSelected.forEach(async (item) => {
-
-        // Add logo to header of every page
-        if(imagesOnPage === this.layoutSelected.image.positions.length -1) {
-          this.layoutSelected.logos.forEach((logo) => {
+      // Add logos on the first page
+      this.layoutSelected.logos.forEach((logo) => {
             doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
           });
-        }
 
+      // Add two images on every page.
+      let imagesOnPage = 0;
+      this.itemsSelected.forEach(async (item, index) => {
+           // Add image to page
           const position = this.layoutSelected.image.positions[imagesOnPage];
           doc.addImage(
             require(`@/assets/images/${item.filename}`),
@@ -319,54 +315,20 @@ export default {
             this.layoutSelected.image.height
             );
           imagesOnPage++;
-        if(imagesOnPage === this.layoutSelected.image.positions.length) {
+
+          // Add page if all images are added per page if it is not the last page
+          if(imagesOnPage === this.layoutSelected.image.positions.length
+          && index < this.itemsSelected.length -1) {
           doc.addPage();
+
+          // Add logos on the following pages
+          this.layoutSelected.logos.forEach((logo) => {
+            doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
+          });
           imagesOnPage = 0;
         }
       });
 
-        /*
-        // if index is odd
-        if (index % 2 === 0) {
-         // Add header image
-        doc.addImage(
-            require(`@/assets/logos/logo_lakos.png`),
-            "PNG",
-            135,
-            7,
-            64,
-            18
-          );
-
-        // Add footer image
-        doc.addImage(
-          require(`@/assets/logos/logo_sachsen.png`),
-          "PNG",
-          15,
-          doc.internal.pageSize.height - 26,
-          50,
-          14
-        );
-        }
-
-        let top = 28;
-        if (index % 2 !== 0) {
-           top = 150
-        }
-        doc.addImage(
-          require(`@/assets/images/${item.filename}`),
-          "JPEG",
-          15,
-          top,
-          180,
-          120
-        );
-        if (index % 2 !== 0 && index !== this.itemsSelected.length - 1) {
-          doc.addPage();
-
-        }
-      });
-      */
       // Save the PDF
       doc.save(filename);
       // Return the PDF as a blob
@@ -382,14 +344,18 @@ export default {
     },
   },
   mounted() {
+    // Load items selected from local storage
     if (window.localStorage.itemsSelected) {
       this.itemsSelected = JSON.parse(window.localStorage.itemsSelected);
-      this.layoutSelected = window.localStorage.layoutSelected && JSON.parse(window.localStorage.layoutSelected);
-
-      // Check if a layout is selected in localStorage
-      if (!this.layoutSelected) {
-        this.layoutSelected = this.layouts[0];
-      }
+    }
+    // Load layout selected from local storage
+    if(window.localStorage.layoutSelected) {
+      this.layoutSelected = JSON.parse(window.localStorage.layoutSelected);
+    }
+    // Set default layout if no layout is selected
+    if (!this.layoutSelected) {
+      // select layout with checked = true
+      this.layoutSelected = this.layouts.find((layout) => layout.checked);
     }
   },
 };
@@ -578,6 +544,7 @@ export default {
 
 	.dayplanner-button:hover {
 		background-color: var(--color-secondary);
+		color: var(--color-text-inverted);
 	}
 
 	.dayplanner-button:active {
