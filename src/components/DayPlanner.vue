@@ -3,7 +3,7 @@
 	<p>Erstellen Sie einen Tagesplan für ihren Kindergarten. Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
 
 	<section class="dayplanner">
-		<h2>Wählen sie ein Layout</h2>
+		<h2>Wählen Sie ein Layout</h2>
 
 		<ul class="layout-selector">
 			<li
@@ -17,7 +17,10 @@
 					:checked="layout.checked"
 					:id="layout.id"
 				>
-				<label :for="layout.id">
+				<label
+					:for="layout.id"
+					@click="selectLayout(layout)"
+				>
 					<img
 						:src="layout.preview"
 						width="80"
@@ -26,10 +29,13 @@
 					></label>
 			</li>
 		</ul>
+		Layout:
+		<pre style="max-height: 15em; overflow-y: scroll"><code>{{layoutSelected}}</code></pre>
+
 	</section>
 
 	<section class="dayplanner">
-		<h2>Wählen sie die Tagesordnungspunkte</h2>
+		<h2>Wählen Sie die Tagesordnungspunkte</h2>
 		<div class="dayplanner-row">
 			<div class="dayplanner-col">
 				<h3>Verfügbare Tagespunkte</h3>
@@ -105,10 +111,14 @@
 		</div>
 	</section>
 
-	<button
-		class="dayplanner-button text-center"
-		@click="generatePdf()"
-	>Tagesplaner drucken</button>
+	<section>
+		<p class="text-center">
+			<button
+				class="dayplanner-button"
+				@click="generatePdf()"
+			>Tagesplan drucken</button>
+		</p>
+	</section>
 </template>
 
 <script>
@@ -125,65 +135,197 @@ export default {
     return {
       itemsAvailable: images,
       itemsSelected: [],
+      layoutSelected: "",
       layouts: [
         {
           id: "a4-2",
           preview: require("@/assets/layouts/A4-2.png"),
           description: "A4 Format mit zwei großen Bildern.",
           checked: true,
-          width: 210,
-          height: 297,
-          margin: {
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
+          page: {
+            format: "a4",
+            orientation: "portrait",
           },
+          image: {
+            width: 180,
+            height: 120,
+            positions: [
+              { x: 15, y: 25 },
+              { x: 15, y: 147 },
+            ]
+          },
+          logos: [
+            {
+              x: 135,
+              y: 7,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
+              type: 'PNG'
+            },
+            {
+              x: 15,
+              y: 270,
+              width: 50,
+              height: 14,
+              url: require(`@/assets/logos/logo_sachsen.png`),
+              type: 'PNG'
+            },
+          ]
         },
         {
           id: "a4-4",
           preview: require("@/assets/layouts/A4-4.png"),
           description: "A4 Querformat mit vier Bildern.",
-          width: 297,
-          height: 420,
-          margin: {
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
+          checked: false,
+          page: {
+            format: "a4",
+            orientation: "landscape",
           },
+          image: {
+            width: 150,
+            height: 150,
+            positions: [
+              { x: 20, y: 22 },
+              { x: 80, y: 22 },
+              { x: 20, y: 160 },
+              { x: 800, y: 160 },
+            ]
+          },
+          logos: [
+            {
+              x: 135,
+              y: 7,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
+              type: 'PNG'
+            },
+            {
+              x: 15,
+              y: 25,
+              width: 50,
+              height: 14,
+              url: require(`@/assets/logos/logo_sachsen.png`),
+              type: 'PNG'
+            },
+          ],
         },
         {
           id: "a4-6",
           preview: require("@/assets/layouts/A4-6.png"),
           description: "A4 Format mit sechs Bildern.",
-          width: 420,
-          height: 595,
-          margin: {
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
+          checked: false,
+          page: {
+            format: "a4",
+            orientation: "portrait",
           },
+          image: {
+            width: 40,
+            height: 30,
+            positions: [
+              { x: 20, y: 20 },
+              { x: 60, y: 20 },
+              { x: 90, y: 20 },
+              { x: 20, y: 90 },
+              { x: 60, y: 90 },
+              { x: 90, y: 90 },
+            ]
+          },
+          logos: [
+            {
+              x: 135,
+              y: 7,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
+              type: 'PNG'
+            },
+            {
+              x: 15,
+              y: 25,
+              width: 50,
+              height: 14,
+              url: require(`@/assets/logos/logo_sachsen.png`),
+              type: 'PNG'
+            },
+          ],
         },
       ],
     };
   },
   methods: {
+   /**
+    * Selects a layout.
+    * @param {Object} layout
+    * @param {Number} index
+    * @returns {void}
+    * @private
+    * @memberof DayPlanner
+    */
+    selectLayout(layout) {
+            this.layouts.forEach((l) => {
+        l.checked = false;
+      });
+      layout.checked = true;
+      this.layoutSelected = layout;
+    },
+
+/**
+ * Add an item to the selected items
+ * @param {Object} item
+ * @param {Number} index
+ * @returns {void}
+ * @private
+ * @memberof DayPlanner
+ **/
     generatePdf: function () {
       const itemIds = this.itemsSelected.map((item) => item.id);
       const filename = `tagesplaner_${itemIds.join('-')}.pdf`
-      const doc = new jsPDF();
+      const doc = new jsPDF({
+        unit: 'mm',
+        putOnlyUsedFonts: true,
+        orientation: this.layoutSelected.page.orientation || 'portrait',
+        format: this.layoutSelected.page.format || 'a4',
+      });
+
+      // Set document properties
       doc.setProperties({
         title: 'KiTa Tagesplaner',
         subject: 'KiTa Tagesplaner mit Bildern',
         author: 'Sarah Girlich',
         keywords: 'KiTa,NULLzuEINS,Tagesplaner',
-        creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)'
+        creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)',
       });
 
       // Add two images on every page.
-      this.itemsSelected.forEach(async (item, index) => {
+      let imagesOnPage = 0;
+      this.itemsSelected.forEach(async (item) => {
+
+        // Add logo to header of every page
+        if(imagesOnPage === this.layoutSelected.image.positions.length -1) {
+          this.layoutSelected.logos.forEach((logo) => {
+            doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
+          });
+        }
+
+          const position = this.layoutSelected.image.positions[imagesOnPage];
+          doc.addImage(
+            require(`@/assets/images/${item.filename}`),
+            'JPEG',
+            position.x,
+            position.y,
+            this.layoutSelected.image.width,
+            this.layoutSelected.image.height
+            );
+          imagesOnPage++;
+        if(imagesOnPage === this.layoutSelected.image.positions.length) {
+          doc.addPage();
+          imagesOnPage = 0;
+        }
+      });
+
+        /*
         // if index is odd
         if (index % 2 === 0) {
          // Add header image
@@ -224,13 +366,15 @@ export default {
 
         }
       });
+      */
       // Save the PDF
       doc.save(filename);
       // Return the PDF as a blob
-      doc.output("blob");
+      doc.output('blob');
     },
     persist: function () {
-      localStorage.itemsSelected = JSON.stringify(this.itemsSelected);
+      window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected);
+      window.localStorage.layoutSelected = JSON.stringify(this.layoutSelected);
     },
     removeFromSelected(index) {
       this.itemsSelected.splice(index, 1);
@@ -240,6 +384,12 @@ export default {
   mounted() {
     if (window.localStorage.itemsSelected) {
       this.itemsSelected = JSON.parse(window.localStorage.itemsSelected);
+      this.layoutSelected = window.localStorage.layoutSelected && JSON.parse(window.localStorage.layoutSelected);
+
+      // Check if a layout is selected in localStorage
+      if (!this.layoutSelected) {
+        this.layoutSelected = this.layouts[0];
+      }
     }
   },
 };
@@ -370,21 +520,6 @@ export default {
 		color: var(--color-white);
 		border-color: var(--color-white);
 	}
-	.zzzdayplanner-item--grab {
-		cursor: grab;
-	}
-
-	.zzz-dayplanner-group-available {
-		display: grid;
-		grid-template-columns: 1fr max-content 1fr 1fr;
-		grid-template-rows: 4rem;
-		grid-column-gap: 10px;
-		grid-row-gap: 10px;
-	}
-
-	.zzz-dayplanner-group-available .dayplanner-item {
-		grid-area: 1 / 4 / 2 / 5;
-	}
 
 	.dayplanner-choosen .dayplanner-handle::before {
 		background-color: inherit;
@@ -417,57 +552,10 @@ export default {
 		background-color: var(--color-background-item-active);
 	}
 
-	.zzzdayplanner-handle::before:active {
-		cursor: grabbing;
-	}
-
-	.zzzdayplanner-handle::before {
-		content: "☰";
-		position: absolute;
-		top: 0;
-		left: 0;
-		cursor: grab;
-		border: var(--color-gray) solid 1px;
-		border-radius: var(--border-radius-base) 0 0 var(--border-radius-base);
-		background-color: var(--color-background-item-active);
-		line-height: 3em;
-		width: 3em;
-	}
-
-	.zzzdayplanner-handle:hover::before {
-		background-color: var(--color-gray-light-dark);
-		color: var(--color-white);
-	}
-
-	.zzzdayplanner-delete::after {
-		content: "⌫";
-		position: absolute;
-		top: 0;
-		right: 0;
-		padding: var(--padding-md);
-		line-height: 3em;
-		border: var(--color-gray) solid 1px;
-		border-radius: 0 var(--border-radius-base) var(--border-radius-base) 0;
-		color: var(--color-error);
-		font-weight: 900;
-		background-color: #ea333322;
-		width: 3em;
-	}
-
-	.zzzdayplanner-delete:hover::after {
-		background-color: var(--color-error);
-		color: var(--color-white);
-		cursor: pointer;
-	}
-
-	.dayplanner-text {
-		line-height: 2.15em;
-	}
-
 	.dayplanner-text summary::marker {
 		color: var(--color-text);
-		cursor: pointer !important;
 	}
+
 	.dayplanner-text summary + p {
 		line-height: 1.2em;
 		outline: var(--color-gray-dark-dark) dotted 1px;
@@ -516,3 +604,4 @@ export default {
 		}
 	}
 </style>
+
