@@ -1,4 +1,5 @@
 <template>
+
 	<DayPlanner />
 </template>
 
@@ -44,7 +45,7 @@ export default {
 		--color-border: var(--color-gray-light);
 	}
 
-	@media (prefers-color-scheme: darka) {
+	@media (prefers-color-scheme: dark) {
 		:root {
 			--color-gray: #334756;
 			--color-background: var(--color-gray-dark-dark);
@@ -54,6 +55,10 @@ export default {
 			--color-text-inverted: var(--color-gray-dark-dark);
 			--color-border: var(--color-gray-dark-dark);
 		}
+	}
+
+	html {
+		font-size: 100%;
 	}
 
 	body {

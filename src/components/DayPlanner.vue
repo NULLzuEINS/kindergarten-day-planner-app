@@ -1,10 +1,11 @@
 <template>
-	<h1 class="text-center">KiTa Tagesplaner</h1>
-	<p>Erstellen Sie einen Tagesplan für ihren Kindergarten. Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
+	<header class="dayplanner">
+		<h1 class="text-center">KiTa Tagesplaner</h1>
+		<p>Erstellen Sie einen Tagesplan für ihren Kindergarten. Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
+	</header>
 
 	<section class="dayplanner">
 		<h2>Wählen Sie ein Layout</h2>
-
 		<ul class="layout-selector">
 			<li
 				v-for="layout in layouts"
@@ -109,12 +110,23 @@
 	</section>
 
 	<section>
+
+		<p
+			v-if="errorMessage"
+			class="alert alert-error"
+		>{{ errorMessage }}</p>
+		<p
+			v-if="successMessage"
+			class="alert alert-success"
+		>{{ successMessage }}</p>
+
 		<p class="text-center">
 			<button
 				class="dayplanner-button"
 				@click="generatePdf()"
 			>Tagesplan drucken</button>
 		</p>
+
 	</section>
 </template>
 
@@ -133,6 +145,7 @@ export default {
       itemsAvailable: images,
       itemsSelected: [],
       layoutSelected: "",
+      loadingIndicator: false,
       layouts: [
         {
           id: "a4-6",
@@ -252,6 +265,7 @@ export default {
       ],
     };
   },
+
   methods: {
    /**
     * Selects a layout.
@@ -269,18 +283,21 @@ export default {
       this.layoutSelected = layout;
     },
 
-/**
- * Add an item to the selected items
- * @param {Object} item
- * @param {Number} index
- * @returns {void}
- * @private
- * @memberof DayPlanner
- **/
-    generatePdf: function () {
+    /**
+     * Generates the PDF.
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     */
+    generatePdf() {
+      this.loadingIndicator = true;
+
+      // Define file name
       const itemIds = this.itemsSelected.map((item) => item.id);
       const filename = `tagesplaner_${itemIds.join('-')}.pdf`
-      const doc = new jsPDF({
+
+      // Create a new document
+       const  doc = new jsPDF({
         unit: 'mm',
         putOnlyUsedFonts: true,
         orientation: this.layoutSelected.page.orientation || 'portrait',
@@ -298,8 +315,8 @@ export default {
 
       // Add logos on the first page
       this.layoutSelected.logos.forEach((logo) => {
-            doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
-          });
+        doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
+      });
 
       // Add two images on every page.
       let imagesOnPage = 0;
@@ -329,15 +346,44 @@ export default {
         }
       });
 
+      // Print PDF if the browser supports it on production environment
+      if (process.env.NODE_ENV === 'production') {
+        doc.autoPrint();
+      }
+
       // Save the PDF
-      doc.save(filename);
-      // Return the PDF as a blob
-      doc.output('blob');
+      doc.save(filename, {returnPromise: true}).then(()=> {
+        // Deactivate loading indicator
+        this.loadingIndicator = false;
+        // Show success message
+        this.successMessage =  'Das Dokument wurde erstellt und bindet sich zum Drucken bereit in Ihrem Dowload-Verzeichnis.';
+      }, (error) => {
+        // Deactivate loading indicator
+        this.loadingIndicator = false;
+        // Show error message
+        this.errorMessage = error.message;
+      });
     },
+
+    /**
+     * Persists settings in local storage.
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     * @todo Check if local storage is available
+     */
     persist: function () {
       window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected);
       window.localStorage.layoutSelected = JSON.stringify(this.layoutSelected);
     },
+
+    /**
+     * Loads settings from local storage.
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     * @todo Check if local storage is available
+     */
     removeFromSelected(index) {
       this.itemsSelected.splice(index, 1);
       this.persist();
@@ -354,7 +400,7 @@ export default {
     }
     // Set default layout if no layout is selected
     if (!this.layoutSelected) {
-      // select layout with checked = true
+      // Select layout with checked = true
       this.layoutSelected = this.layouts.find((layout) => layout.checked);
     }
   },
@@ -406,14 +452,14 @@ export default {
 	.dayplanner {
 		background: var(--color-background);
 		color: var(--color-text);
-		padding: 0 1rem;
+		padding: 0 2em;
+		font-size: 1rem;
 	}
 
 	.dayplanner-row {
 		display: grid;
 		grid-auto-flow: column;
 		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr;
 		gap: var(--padding-base);
 	}
 
@@ -433,7 +479,8 @@ export default {
 		display: grid;
 		grid-template-columns: 0fr 3fr 0fr;
 		grid-template-areas: "handle title delete";
-		gap: 1em;
+		grid-gap: var(--padding-base);
+		border: 1px solid var(--color-background-item-active);
 		align-items: start;
 
 		cursor: draggable;
@@ -533,10 +580,9 @@ export default {
 	.dayplanner-button {
 		background-color: var(--color-primary);
 		color: var(--color-text);
-		font-size: large;
-		font-weight: bold;
+		font-size: 1.44rem;
 		padding: var(--padding-base);
-		border-radius: 6px;
+		border-radius: 0.3em;
 		margin: var(--padding-base);
 		border: #33333355 solid 4px;
 		cursor: pointer;
@@ -548,24 +594,32 @@ export default {
 	}
 
 	.dayplanner-button:active {
-		background-color: var(--color-tertiary);
+		background-color: var(--color-primary);
+		color: var(--color-text-inverted);
 	}
 
 	/* breakpoint for iphone 12 */
 	@media screen and (max-width: 576px) {
 		.dayplanner {
-			font-size: 70%;
+			font-size: 48%;
 		}
 		.dayplanner-row {
-			gap: 0;
+			grid-gap: 0;
+			grid-template-columns: 50% 50%;
 		}
 		.dayplanner-group {
 			border: none;
+			outline: red dotted 1px;
 			padding: 0;
 		}
-		.dayplanner-delete::after {
-			width: 3em;
+		.dayplanner-item {
+			grid-template-columns: 1fr 0fr;
+			grid-template-areas: "title delete";
 		}
+		.dayplanner-item-btn--handle {
+			display: none;
+		}
+
 		.dayplanner-text {
 			line-height: 1.5em;
 		}
