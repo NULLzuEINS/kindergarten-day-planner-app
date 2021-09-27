@@ -347,7 +347,7 @@ export default {
       });
 
       // Print PDF if the browser supports it on production environment
-      if (process.env.NODE_ENV in [ 'staging', 'production' ]) {
+      if ([ 'staging', 'production' ].includes(process.env.NODE_ENV)) {
         doc.autoPrint();
       }
 
