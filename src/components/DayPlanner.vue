@@ -356,7 +356,7 @@ export default {
         // Deactivate loading indicator
         this.loadingIndicator = false;
         // Show success message
-        this.showToastMessage( 'Das Dokument zum Drucken wurde erstellt und befindet in Ihrem Download-Verzeichnis.', 'success');
+        this.showToastMessage( 'Das Dokument zum Drucken wurde erstellt und befindet in Ihrem Download-Verzeichnis.', 'success', 14400);
       }, (error) => {
         // Deactivate loading indicator
         this.loadingIndicator = false;
@@ -366,11 +366,11 @@ export default {
     },
 
   // Show toast message
-  showToastMessage(message, type) {
+  showToastMessage(message, type, duration) {
     this.$toast.open({
       message,
       type,
-      duration: 5000,
+      duration: duration || 8000,
       position: 'top-right',
     })
     },
