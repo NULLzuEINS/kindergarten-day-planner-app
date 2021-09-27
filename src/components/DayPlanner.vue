@@ -356,7 +356,7 @@ export default {
         // Deactivate loading indicator
         this.loadingIndicator = false;
         // Show success message
-        this.showToastMessage( 'Das Dokument wurde erstellt und bindet sich zum Drucken bereit in Ihrem Dowload-Verzeichnis.', 'success');
+        this.showToastMessage( 'Das Dokument zum Drucken wurde erstellt und befindet in Ihrem Download-Verzeichnis.', 'success');
       }, (error) => {
         // Deactivate loading indicator
         this.loadingIndicator = false;

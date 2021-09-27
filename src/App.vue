@@ -1,5 +1,4 @@
 <template>
-	<button @click="showToast('This is super')">Show it!</button>
 	<DayPlanner />
 </template>
 
@@ -10,9 +9,6 @@ export default {
   name: 'App',
   components: {
     DayPlanner
-  },
-  methods: {
-   
   }
 }
 </script>
