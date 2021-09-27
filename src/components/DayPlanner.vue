@@ -356,15 +356,24 @@ export default {
         // Deactivate loading indicator
         this.loadingIndicator = false;
         // Show success message
-        this.successMessage =  'Das Dokument wurde erstellt und bindet sich zum Drucken bereit in Ihrem Dowload-Verzeichnis.';
+        this.showToastMessage( 'Das Dokument wurde erstellt und bindet sich zum Drucken bereit in Ihrem Dowload-Verzeichnis.', 'success');
       }, (error) => {
         // Deactivate loading indicator
         this.loadingIndicator = false;
         // Show error message
-        this.errorMessage = error.message;
+        this.showToastMessage(error.message, 'error');
       });
     },
 
+  // Show toast message
+  showToastMessage(message, type) {
+    this.$toast.open({
+      message,
+      type,
+      duration: 5000,
+      position: 'top-right',
+    })
+    },
     /**
      * Persists settings in local storage.
      * @returns {void}

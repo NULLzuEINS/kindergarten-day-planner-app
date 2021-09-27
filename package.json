@@ -2,7 +2,7 @@
   "name": "dayplanner-app",
   "version": "0.1.0",
   "engines": {
-    "node": ">=14 <15"
+    "node": ">=14 <=16.1.0"
   },
   "private": true,
   "scripts": {
@@ -19,6 +19,7 @@
     "pdfkit": "^0.12.3",
     "vue": "^3.0.1",
     "vue-loader": "15.9.8",
+    "vue-toast-notification": "^2.0",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
