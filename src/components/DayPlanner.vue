@@ -114,7 +114,7 @@
 			<button
 				class="dayplanner-button"
 				@click="generatePdf()"
-			>🖨	 Tagesplan drucken</button>
+			>🖨 Tagesplan drucken</button>
 		</p>
 	</section>
 </template>
@@ -473,8 +473,14 @@ export default {
 		padding: var(--padding-base) var(--padding-base) var(--padding-xxxlg);
 	}
 
+	.dayplanner-group-available .dayplanner-item-btn--delete {
+		visibility: hidden;
+	}
+
+	/* ------------ Dayplanner: Item ------------ */
 	.dayplanner-item {
 		display: grid;
+		grid-auto-rows: 1fr;
 		grid-template-columns: 0fr 3fr 0fr;
 		grid-template-areas: "handle title delete";
 		grid-gap: var(--padding-base);
@@ -488,17 +494,26 @@ export default {
 		margin-bottom: 0.25em;
 	}
 
-	.dayplanner-group-available .dayplanner-item-btn--delete {
-		visibility: hidden;
-	}
-
 	.dayplanner-item button,
-	.dayplanner-item details {
+	.dayplanner-item summary {
 		padding: 1em 1em;
 		font-size: 1rem;
 		line-height: 1rem;
 		color: var(--color-text);
 		border: transparent solid 1px;
+	}
+
+	.dayplanner-item > input {
+		width: 6em;
+		line-height: 1;
+		height: 1.8em;
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		color: var(--color-text);
+		position: absolute;
+		right: 1rem;
+		top: 0;
+		bottom: 0;
 	}
 
 	.dayplanner-item-btn {
@@ -512,6 +527,10 @@ export default {
 	.dayplanner-item-btn:hover {
 		background: var(--color-text-inverted);
 		color: var(--color-text);
+	}
+	.dayplanner-item-btn:focus {
+		border: var(--color-primary) solid 1px;
+		outline: none; /* Remove default focus ring */
 	}
 
 	.dayplanner-item-btn:first-child {
@@ -532,13 +551,8 @@ export default {
 		color: var(--color-white);
 		border-color: var(--color-white);
 	}
-
-	.dayplanner-choosen .dayplanner-handle::before {
-		background-color: inherit;
-	}
-
-	.dayplanner-choosen .dayplanner-handle::before:active {
-		background-color: inherit;
+	.dayplanner-item-btn--delete:focus {
+		border-color: var(--color-text);
 	}
 
 	.dayplanner-choosen,
@@ -547,24 +561,21 @@ export default {
 		cursor: grabbing !important;
 	}
 
-	.dayplanner-item > input {
-		width: 6em;
-		line-height: 1;
-		height: 1.8em;
-		padding: 0.5em;
-		border: 1px solid #ccc;
-		color: var(--color-text);
-		position: absolute;
-		right: 1rem;
-		top: 0;
-		bottom: 0;
-	}
-
 	.dayplanner-ghost {
 		background-color: var(--color-background-item-active);
 	}
 
+	.dayplanner-text:focus {
+		border: var(--color-primary) solid 1px;
+	}
+
+	.dayplanner-item summary {
+		grid-area: title;
+		cursor: pointer;
+		line-height: 1rem;
+	}
 	.dayplanner-text summary:focus {
+		border: var(--color-primary) solid 1px;
 		outline: none;
 	}
 
@@ -574,10 +585,7 @@ export default {
 
 	.dayplanner-text summary + p {
 		line-height: 1.2em;
-		outline: var(--color-gray-dark-dark) dotted 1px;
-		outline-offset: 0.6em;
-		margin-top: 1.8em;
-		margin-bottom: 0;
+		margin-top: 0;
 		padding: 0;
 		text-align: center;
 	}
@@ -624,16 +632,16 @@ export default {
 			padding: 0;
 		}
 
-    .dayplanner-item {
-      grid-gap: .4em;
-    }
+		.dayplanner-item {
+			grid-gap: 0.4em;
+		}
 
-    .dayplanner-item details {
+		.dayplanner-item details {
 			padding-left: 0;
 			padding-right: 0;
 		}
 
-		.dayplanner-text  {
+		.dayplanner-text {
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
