@@ -528,6 +528,7 @@ export default {
 	.dayplanner-item-btn:first-child {
 		border-radius: var(--border-radius-base) 0 0 var(--border-radius-base);
 	}
+
 	.dayplanner-item-btn:last-child {
 		border-radius: 0 var(--border-radius-base) var(--border-radius-base) 0;
 	}
@@ -574,6 +575,10 @@ export default {
 		background-color: var(--color-background-item-active);
 	}
 
+	.dayplanner-text summary:focus {
+		outline: none;
+	}
+
 	.dayplanner-text summary::marker {
 		color: var(--color-text);
 	}
@@ -585,6 +590,11 @@ export default {
 		margin-top: 1.8em;
 		text-align: center;
 	}
+
+  .dayplanner-text summary + p img {
+    max-width: 100%;
+    height: auto;
+  }
 
 	.dayplanner-button {
 		background-color: var(--color-primary);
@@ -608,9 +618,9 @@ export default {
 	}
 
 	/* breakpoint for iphone 12 */
-	@media screen and (max-width: 576px) {
+	@media screen and (max-width: 750px) {
 		.dayplanner {
-			font-size: 48%;
+			font-size: 85%;
 		}
 		.dayplanner-row {
 			grid-gap: 0;
@@ -618,7 +628,6 @@ export default {
 		}
 		.dayplanner-group {
 			border: none;
-			outline: red dotted 1px;
 			padding: 0;
 		}
 		.dayplanner-item {
