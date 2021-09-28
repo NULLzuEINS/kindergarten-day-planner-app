@@ -114,7 +114,7 @@
 			<button
 				class="dayplanner-button"
 				@click="generatePdf()"
-			>Tagesplan drucken</button>
+			>🖨	 Tagesplan drucken</button>
 		</p>
 	</section>
 </template>
@@ -577,8 +577,8 @@ export default {
 		outline: var(--color-gray-dark-dark) dotted 1px;
 		outline-offset: 0.6em;
 		margin-top: 1.8em;
-    margin-bottom: 0;
-    padding: 0;
+		margin-bottom: 0;
+		padding: 0;
 		text-align: center;
 	}
 
@@ -624,9 +624,18 @@ export default {
 			padding: 0;
 		}
 
-		.dayplanner-item details {
+    .dayplanner-item {
+      grid-gap: .4em;
+    }
+
+    .dayplanner-item details {
 			padding-left: 0;
 			padding-right: 0;
+		}
+
+		.dayplanner-text  {
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 	}
 </style>
