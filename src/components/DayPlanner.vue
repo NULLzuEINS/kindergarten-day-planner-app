@@ -109,7 +109,13 @@
 		</div>
 	</section>
 
-	<section>
+	<section class="dayplanner">
+		<div
+			class="alert alert-primary"
+			role="alert"
+		>
+			Das Erstellen des Dokuments kann einige Zeit dauern. Bitte warten Sie, bis die Seite neu geladen wird!
+		</div>
 		<p class="text-center">
 			<button
 				class="dayplanner-button"
@@ -345,7 +351,7 @@ export default {
         // Deactivate loading indicator
         this.loadingIndicator = false;
         // Show success message
-        this.showToastMessage( 'Das Dokument zum Drucken wurde erstellt und befindet in Ihrem Download-Verzeichnis.', 'success', 14400);
+        this.showToastMessage( 'Das Dokument zum Drucken wurde erstellt.', 'success', 14400);
       }, (error) => {
         // Deactivate loading indicator
         this.loadingIndicator = false;
@@ -406,6 +412,32 @@ export default {
 </script>
 
 <style lang="css" >
+	/* :::::::::::::::::::::::::::::::::::: Alert boxes ::::::::::::::::::::::::::::::::::::::::: */
+	.alert {
+		position: relative;
+		padding: 1.2rem 1.25rem;
+		margin-bottom: 1rem;
+		border: 1px solid transparent;
+		border-radius: .2rem;
+	}
+
+	.alert-primary {
+		color: #004085;
+		background-color: #cce5ff;
+		border-color: #b8daff;
+    padding: 1.2rem 3.25rem;
+	}
+	.alert-primary::before {
+		position: absolute;
+		content: "ⓘ";
+		display: block;
+		font-weight: 900;
+    font-size: 1.7em;
+    left: .8rem;
+    top: .6rem;
+	}
+
+	/* ::::::::::::::::::::::::::::::::::: Layout selection ::::::::::::::::::::::::::::::::::: */
 	.layout-selector {
 		list-style: none;
 		padding: 0;
