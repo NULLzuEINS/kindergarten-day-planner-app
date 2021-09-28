@@ -110,23 +110,12 @@
 	</section>
 
 	<section>
-
-		<p
-			v-if="errorMessage"
-			class="alert alert-error"
-		>{{ errorMessage }}</p>
-		<p
-			v-if="successMessage"
-			class="alert alert-success"
-		>{{ successMessage }}</p>
-
 		<p class="text-center">
 			<button
 				class="dayplanner-button"
 				@click="generatePdf()"
 			>Tagesplan drucken</button>
 		</p>
-
 	</section>
 </template>
 
@@ -588,13 +577,15 @@ export default {
 		outline: var(--color-gray-dark-dark) dotted 1px;
 		outline-offset: 0.6em;
 		margin-top: 1.8em;
+    margin-bottom: 0;
+    padding: 0;
 		text-align: center;
 	}
 
-  .dayplanner-text summary + p img {
-    max-width: 100%;
-    height: auto;
-  }
+	.dayplanner-text summary + p img {
+		max-width: 100%;
+		height: auto;
+	}
 
 	.dayplanner-button {
 		background-color: var(--color-primary);
@@ -617,29 +608,25 @@ export default {
 		color: var(--color-text-inverted);
 	}
 
-	/* breakpoint for iphone 12 */
+	/* Small devices */
 	@media screen and (max-width: 750px) {
 		.dayplanner {
 			font-size: 85%;
 		}
+
 		.dayplanner-row {
 			grid-gap: 0;
 			grid-template-columns: 50% 50%;
 		}
+
 		.dayplanner-group {
 			border: none;
 			padding: 0;
 		}
-		.dayplanner-item {
-			grid-template-columns: 1fr 0fr;
-			grid-template-areas: "title delete";
-		}
-		.dayplanner-item-btn--handle {
-			display: none;
-		}
 
-		.dayplanner-text {
-			line-height: 1.5em;
+		.dayplanner-item details {
+			padding-left: 0;
+			padding-right: 0;
 		}
 	}
 </style>
