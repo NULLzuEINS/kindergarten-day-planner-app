@@ -418,23 +418,23 @@ export default {
 		padding: 1.2rem 1.25rem;
 		margin-bottom: 1rem;
 		border: 1px solid transparent;
-		border-radius: .2rem;
+		border-radius: 0.2rem;
 	}
 
 	.alert-primary {
 		color: #004085;
 		background-color: #cce5ff;
 		border-color: #b8daff;
-    padding: 1.2rem 3.25rem;
+		padding: 1.2rem 3.25rem;
 	}
 	.alert-primary::before {
 		position: absolute;
 		content: "ⓘ";
 		display: block;
 		font-weight: 900;
-    font-size: 1.7em;
-    left: .8rem;
-    top: .6rem;
+		font-size: 1.7em;
+		left: 0.8rem;
+		top: 0.6rem;
 	}
 
 	/* ::::::::::::::::::::::::::::::::::: Layout selection ::::::::::::::::::::::::::::::::::: */
@@ -650,10 +650,6 @@ export default {
 
 	/* Small devices */
 	@media screen and (max-width: 750px) {
-		.dayplanner {
-			font-size: 85%;
-		}
-
 		.dayplanner-row {
 			grid-gap: 0;
 			grid-template-columns: 50% 50%;
