@@ -1,7 +1,11 @@
 <template>
 	<header class="dayplanner">
 		<h1 class="text-center">KiTa Tagesplaner</h1>
-		<p>Erstellen Sie einen Tagesplan für ihren Kindergarten. Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite! Wenn sie fertig sind, drücken Sie auf "PDF erstellen".</p>
+		<p>
+			Erstellen Sie einen Tagesplan für ihren Kindergarten.
+			Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite!
+			Wenn Sie fertig sind, drücken Sie auf "PDF erstellen".
+		</p>
 	</header>
 
 	<section class="dayplanner">
@@ -77,7 +81,11 @@
 					class="dayplanner-group"
 					ghost-class="dayplanner-ghost"
 					chosen-class="dayplanner-choosen"
-					group="dayplanner"
+					:group="{
+                              name: 'dayplanner',
+                              put: true,
+                              sort: true,
+                          }"
 					handle=".dayplanner-handle"
 					tag="ol"
 					@change="persist"
@@ -114,7 +122,8 @@
 			class="alert alert-primary"
 			role="alert"
 		>
-			Das Erstellen des Dokuments kann einige Zeit dauern. Bitte warten Sie, bis die Seite neu geladen wird!
+			Das Erstellen des Dokumentes kann einige Zeit in Anspruch nehmen.
+			Bitte warten Sie, bis die Seite neu geladen wird!
 		</div>
 		<p class="text-center">
 			<button
@@ -155,29 +164,29 @@ export default {
             width: 40*2,
             height: 30*2,
             positions: [
-              { x: 20, y: 27 },
-              { x: 110, y: 27 },
-              { x: 20, y: 110 },
-              { x: 110, y: 110 },
-              { x: 20, y: 190 },
-              { x: 110, y: 190 },
+              { x: 20, y: 15 },
+              { x: 110, y: 15 },
+              { x: 20, y: 100 },
+              { x: 110, y: 100 },
+              { x: 20, y: 180 },
+              { x: 110, y: 180 },
             ]
           },
           logos: [
             {
-              x: 127,
-              y: 7,
-              width: 64,
-              height: 18,
-              url: require(`@/assets/logos/logo_lakos.png`),
+              x: 20,
+              y: 270,
+              width: 45,
+              height: 16,
+              url: require(`@/assets/logos/logo_sachsen.png`),
               type: 'PNG'
             },
             {
-              x: 18,
-              y: 270,
-              width: 50,
-              height: 14,
-              url: require(`@/assets/logos/logo_sachsen.png`),
+              x: 125,
+              y: 268,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
               type: 'PNG'
             },
           ]
@@ -195,29 +204,30 @@ export default {
             width: 40 * 4 - 22 *2,
             height: 30 * 4 - 22 *2,
             positions: [
-              { x: 25, y: 25 },
-              { x: 155, y: 25 },
-              { x: 25, y:  110  },
-              { x: 155, y:  110  },
+              { x: 25, y: 10 },
+              { x: 155, y: 10 },
+              { x: 25, y:  95  },
+              { x: 155, y:  95  },
             ]
           },
           logos: [
             {
+              x: 23,
+              y: 185,
+              width: 45,
+              height: 16,
+              url: require(`@/assets/logos/logo_sachsen.png`),
+              type: 'PNG'
+            },
+            {
               x: 210,
-              y: 5,
+              y: 183,
               width: 64,
               height: 18,
               url: require(`@/assets/logos/logo_lakos.png`),
               type: 'PNG'
             },
-            {
-              x: 23,
-              y: 190,
-              width: 50,
-              height: 14,
-              url: require(`@/assets/logos/logo_sachsen.png`),
-              type: 'PNG'
-            },
+
           ],
         },
                 {
@@ -233,25 +243,25 @@ export default {
             width: 180,
             height: 120,
             positions: [
-              { x: 15, y: 25 },
-              { x: 15, y: 147 },
+              { x: 15, y: 15 },
+              { x: 15, y: 140 },
             ]
           },
           logos: [
             {
-              x: 135,
-              y: 7,
-              width: 64,
-              height: 18,
-              url: require(`@/assets/logos/logo_lakos.png`),
+              x: 20,
+              y: 270,
+              width: 45,
+              height: 16,
+              url: require(`@/assets/logos/logo_sachsen.png`),
               type: 'PNG'
             },
             {
-              x: 15,
-              y: 270,
-              width: 50,
-              height: 14,
-              url: require(`@/assets/logos/logo_sachsen.png`),
+              x: 125,
+              y: 268,
+              width: 64,
+              height: 18,
+              url: require(`@/assets/logos/logo_lakos.png`),
               type: 'PNG'
             },
           ]
@@ -289,7 +299,7 @@ export default {
 
       // Define file name
       const itemIds = this.itemsSelected.map((item) => item.id);
-      const filename = `tagesplaner_${itemIds.join('-')}.pdf`
+      const filename = `tagesplaner_${this.layoutSelected.id}_${itemIds.join('-')}.pdf`
 
       // Create a new document
        const  doc = new jsPDF({
@@ -307,6 +317,12 @@ export default {
         keywords: 'KiTa,NULLzuEINS,Tagesplaner',
         creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)',
       });
+
+      // Set draw color to gray
+      doc.setDrawColor(42, 42, 42);
+
+      // Draw a line at the bottom of the page
+      doc.line(17, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 17, doc.internal.pageSize.height - 30);
 
       // Add logos on the first page
       this.layoutSelected.logos.forEach((logo) => {
@@ -333,10 +349,15 @@ export default {
           && index < this.itemsSelected.length -1) {
           doc.addPage();
 
+          // Draw a line at the bottom of the page
+          doc.line(17, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 17, doc.internal.pageSize.height - 30);
+
           // Add logos on the following pages
           this.layoutSelected.logos.forEach((logo) => {
             doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
           });
+
+
           imagesOnPage = 0;
         }
       });
