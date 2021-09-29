@@ -48,11 +48,11 @@
 					tag="ul"
 					:list="itemsAvailable"
 					:group="{
-                                        name: 'dayplanner',
-                                        pull: 'clone',
-                                        put: false,
-                                        sort: false,
-                                    }"
+                            name: 'dayplanner',
+                            pull: 'clone',
+                            put: false,
+                            sort: false,
+                            }"
 					item-key="id"
 				>
 					<template #item="{ element }">
@@ -86,11 +86,10 @@
                               put: true,
                               sort: true,
                           }"
-					handle=".dayplanner-handle"
 					tag="ol"
 					@change="persist"
 					:list="itemsSelected"
-					item-key="id"
+					:item-key="Math.round(Math.random()*1000).toString()"
 				>
 					<template #item="{ element, index }">
 						<li class="dayplanner-item">
@@ -540,7 +539,7 @@ export default {
 		border: 1px solid var(--color-background-item-active);
 		align-items: start;
 
-		cursor: draggable;
+		cursor: grab;
 		border: 1px solid var(--color-border);
 		border-radius: var(--border-radius-base);
 		background-color: var(--color-background-item);
