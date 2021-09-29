@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-deprecated-filter */
 <template>
 	<header class="dayplanner">
 		<h1 class="text-center">KiTa Tagesplaner</h1>
@@ -94,7 +95,10 @@
 					<template #item="{ element, index }">
 						<li class="dayplanner-item">
 							<button class="dayplanner-item-btn dayplanner-item-btn--handle">☰</button>
-							<details class="dayplanner-text">
+							<details
+								class="dayplanner-text"
+								v-if="element.type === 'image'"
+							>
 								<summary>{{ element.description }}</summary>
 								<p>
 									<img
@@ -105,6 +109,29 @@
 									/>
 								</p>
 							</details>
+
+							<details
+								class="dayplanner-text"
+								v-if="element.type === 'text'"
+							>
+								<summary>
+									<strong>Text:</strong> <em>{{truncate(element.text) }}</em>
+								</summary>
+								<p>
+									<textarea
+										key="text"
+										:id="'text-' + index"
+										:ref="'text-' + index"
+										v-model="element.text"
+										@change="persist()"
+										rows="5"
+										cols="40"
+										autofocus
+										maxlength="144"
+									></textarea>
+									<span v-html="checkLength(element.text)" />
+								</p>
+							</details>
 							<button
 								@click="removeFromSelected(index)"
 								class="dayplanner-item-btn dayplanner-item-btn--delete"
@@ -112,6 +139,10 @@
 						</li>
 					</template>
 				</draggable>
+				<button
+					class="dayplanner-btn"
+					@click="addTextfield()"
+				>Text hinzufügen</button>
 			</div>
 		</div>
 	</section>
@@ -136,7 +167,9 @@
 <script>
 import draggable from "vuedraggable";
 import jsPDF from "jspdf";
-import images from "../store/images";
+import items from "../store/items";
+
+const textMaxLength = 144;
 
 export default {
   name: "DayPlanner",
@@ -145,7 +178,7 @@ export default {
   },
   data() {
     return {
-      itemsAvailable: images,
+      itemsAvailable: items,
       itemsSelected: [],
       layoutSelected: "",
       loadingIndicator: false,
@@ -269,7 +302,6 @@ export default {
       ],
     };
   },
-
   methods: {
    /**
     * Selects a layout.
@@ -285,6 +317,65 @@ export default {
       });
       layout.checked = true;
       this.layoutSelected = layout;
+    },
+
+    /**
+     * Truncate a string to a given length.
+     * @param {String} text to truncate
+     * @param {Number} length to truncate to
+     * @returns {String} suffix to append to the truncated string
+     * @private
+     * @memberof DayPlanner
+     */
+    truncate(text, length, suffix) {
+      length = length || 30;
+      suffix = suffix || "...";
+      if (text.length > length) {
+          return text.substring(0, length) + suffix;
+      } else {
+          return text;
+      }
+    },
+
+    /**
+     * Check length of text.
+     * @param {String} text
+     * @returns {String} With a warning if text is too long.
+     * @private
+     * @memberof DayPlanner
+     */
+    checkLength(text) {
+      if (text.length > textMaxLength) {
+        return `<span class="text-danger">${text.length} / ${textMaxLength}</span>`;
+      } else {
+        return `${text.length} / ${textMaxLength}`;
+      }
+    },
+
+    /**
+     * Focus textarea on click.
+     * @param {String} ref to textarea
+     * @returns {void}
+     * @private
+     * @memberof DayPlanner
+     */
+    focusInput(key){
+      this.$refs[key][0].focus()
+    },
+
+    /**
+     * Add textfield to selected items.
+     * @returns {void}
+     * @private
+     * @memberof DayPlanner
+     */
+    addTextfield() {
+      this.itemsSelected
+      .push({
+        type: "text",
+        description: "",
+        text: "",
+      });
     },
 
     /**
@@ -645,6 +736,22 @@ export default {
 	.dayplanner-text summary + p img {
 		max-width: 100%;
 		height: auto;
+	}
+
+	.dayplanner-text summary + p textarea {
+		width: 100%;
+		height: 100%;
+		border: none;
+		resize: none;
+		outline: dashed var(--color-text-inverted) 1px;
+		background-color: transparent;
+		color: var(--color-text);
+		font-size: 1rem;
+		line-height: 1rem;
+		padding: 0.5em;
+	}
+	.dayplanner-text summary + p textarea:focus {
+		outline: dashed var(--color-primary) 1px;
 	}
 
 	.dayplanner-button {
