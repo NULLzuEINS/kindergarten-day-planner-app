@@ -85,4 +85,16 @@ export default {
 	.text-center {
 		text-align: center;
 	}
+
+  .text-error {
+    color: var(--color-error);
+  }
+
+  .text-warning {
+    color: var(--color-warning);
+  }
+
+  .text-muted {
+    color: var(--color-gray-dark);
+  }
 </style>

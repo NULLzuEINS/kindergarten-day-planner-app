@@ -2,89 +2,105 @@
     {
         "id": 0,
         "type": "image",
+        "open": false,
         "filename": "00_unspecified.jpg",
         "description": "Sonstiges"
     },
     {
         "id": 1,
         "type": "image",
+        "open": false,
         "filename": "01_ankommen.jpg",
         "description": "Ankommen"
     },
     {
         "id": 2,
         "type": "image",
+        "open": false,
         "filename": "02_frühstück.jpg",
         "description": "Frühstück"
     },
     {
         "id": 3,
         "type": "image",
+        "open": false,
         "filename": "03_morgenkreis.jpg",
         "description": "Morgenkreis"
     },
     {
         "id": 4,
         "type": "image",
+        "open": false,
         "filename": "04_draußen.jpg",
         "description": "Draußen"
     },
     {
         "id": 5,
         "type": "image",
+        "open": false,
         "filename": "05_wickeln.jpg",
         "description": "Wickeln"
     },
     {
         "id": 6,
         "type": "image",
+        "open": false,
         "filename": "06_tanzen.jpg",
         "description": "Tanzen"
     },
     {
         "id": 7,
         "type": "image",
+        "open": false,
         "filename": "07_lesen.jpg",
         "description": "Lesen"
     },
     {
         "id": 8,
         "type": "image",
+        "open": false,
         "filename": "08_spielen.jpg",
         "description": "Spielen"
     },
     {
         "id": 9,
         "type": "image",
+        "open": false,
         "filename": "09_experimentieren.jpg",
         "description": "Experiementieren"
     },
     {
         "id": 10,
         "type": "image",
+        "open": false,
         "filename": "10_mittagessen.jpg",
         "description": "Mittagessen"
     },
     {
         "id": 11,
         "type": "image",
+        "open": false,
         "filename": "11_mittagsschlaf.jpg",
         "description": "Mittagsschlaf"
     },
     {
         "id": 12,
         "type": "image",
+        "open": false,
         "filename": "12_kitafest.jpg",
         "description": "Kitafest"
     },
     {
         "id": 13,
+        "type": "image",
+        "open": false,
         "filename": "13_elternabend.jpg",
         "description": "Elternabend"
     },
     {
         "id": 14,
         "type": "image",
+        "open": false,
         "filename": "14_verabschieden.jpg",
         "description": "Verabschieden"
     }

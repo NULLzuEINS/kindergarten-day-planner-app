@@ -98,8 +98,9 @@
 							<details
 								class="dayplanner-text"
 								v-if="element.type === 'image'"
+								:open="element.open"
 							>
-								<summary>{{ element.description }}</summary>
+								<summary @click="persist()">{{ element.description }}</summary>
 								<p>
 									<img
 										:src="require(`@/assets/images/${element.filename}`)"
@@ -111,11 +112,22 @@
 							</details>
 
 							<details
-								class="dayplanner-text"
+								class="dayplanner-text dayplanner-text--type-text"
 								v-if="element.type === 'text'"
+								:open="element.open"
 							>
 								<summary>
-									<strong>Text:</strong> <em>{{truncate(element.text) }}</em>
+									<strong>Text:&nbsp;</strong>
+									<em class="dayplanner-text-preview--xs">{{truncate(element.text) }}</em>
+									<marquee
+										class="dayplanner-text-preview--sm"
+										behavior="scroll"
+										scrollamount="2"
+										vspace="0"
+										hspace="12"
+									>
+										{{element.text }}
+									</marquee>
 								</summary>
 								<p>
 									<textarea
@@ -125,8 +137,7 @@
 										v-model="element.text"
 										@change="persist()"
 										rows="5"
-										cols="40"
-										autofocus
+										cols="42"
 										maxlength="144"
 									></textarea>
 									<span v-html="checkLength(element.text)" />
@@ -169,7 +180,8 @@ import draggable from "vuedraggable";
 import jsPDF from "jspdf";
 import items from "../store/items";
 
-const textMaxLength = 144;
+const TEXT_LENGTH_MAX = 144;
+const TEXT_LENGTH_PREVIEW = 19;
 
 export default {
   name: "DayPlanner",
@@ -328,7 +340,7 @@ export default {
      * @memberof DayPlanner
      */
     truncate(text, length, suffix) {
-      length = length || 30;
+      length = length || TEXT_LENGTH_PREVIEW;
       suffix = suffix || "...";
       if (text.length > length) {
           return text.substring(0, length) + suffix;
@@ -345,10 +357,10 @@ export default {
      * @memberof DayPlanner
      */
     checkLength(text) {
-      if (text.length > textMaxLength) {
-        return `<span class="text-danger">${text.length} / ${textMaxLength}</span>`;
+      if (text.length >= TEXT_LENGTH_MAX) {
+        return `<span class="text-warning" title="Der Text hat die maximale Länge erreicht. Wenn Sie mehr schreiben wollen, legen Sie ein neues Textfeld an!">${text.length} / ${TEXT_LENGTH_MAX}</span>`;
       } else {
-        return `${text.length} / ${textMaxLength}`;
+        return `${text.length} / ${TEXT_LENGTH_MAX}`;
       }
     },
 
@@ -374,8 +386,10 @@ export default {
       .push({
         type: "text",
         description: "",
+        open: 'open',
         text: "",
       });
+      //document.getElementById(`text-${this.itemsSelected.length}`).focus();
     },
 
     /**
@@ -446,7 +460,6 @@ export default {
           this.layoutSelected.logos.forEach((logo) => {
             doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
           });
-
 
           imagesOnPage = 0;
         }
@@ -708,10 +721,20 @@ export default {
 		background-color: var(--color-background-item-active);
 	}
 
+	/* ------------ Dayplanner: Text ------------ */
 	.dayplanner-text:focus {
 		border: var(--color-primary) solid 1px;
 	}
 
+	.dayplanner-text-preview--xs {
+		display: inline-block;
+	}
+
+	.dayplanner-text-preview--sm {
+		display: none;
+	}
+
+	/* ------------ Dayplanner: Summary ------------ */
 	.dayplanner-item summary {
 		grid-area: title;
 		cursor: pointer;
@@ -741,19 +764,31 @@ export default {
 	.dayplanner-text summary + p textarea {
 		width: 100%;
 		height: 100%;
-		border: none;
+		outline: none;
 		resize: none;
-		outline: dashed var(--color-text-inverted) 1px;
+		border: dashed var(--color-text-inverted) 1px;
+		border-radius: var(--border-radius-base);
 		background-color: transparent;
 		color: var(--color-text);
 		font-size: 1rem;
 		line-height: 1rem;
 		padding: 0.5em;
+		margin-top: var(--padding-base);
 	}
 	.dayplanner-text summary + p textarea:focus {
 		outline: dashed var(--color-primary) 1px;
 	}
 
+	.dayplanner-text--type-text marquee {
+		display: inline-block;
+		width: 60%;
+		white-space: nowrap;
+		overflow: hidden;
+    margin-bottom: -3px;
+    font-style: italic;
+	}
+
+	/* ------------ Dayplanner: Button ------------ */
 	.dayplanner-button {
 		background-color: var(--color-primary);
 		color: var(--color-text);
@@ -775,8 +810,8 @@ export default {
 		color: var(--color-text-inverted);
 	}
 
-	/* Small devices */
-	@media screen and (max-width: 750px) {
+	/* ------------ Small devices ------------ */
+	@media screen and (max-width: 912px) {
 		.dayplanner-row {
 			grid-gap: 0;
 			grid-template-columns: 50% 50%;
@@ -799,6 +834,14 @@ export default {
 		.dayplanner-text {
 			text-overflow: ellipsis;
 			overflow: hidden;
+		}
+
+		.dayplanner-text-preview--xs {
+			display: none;
+		}
+
+		.dayplanner-text-preview--sm {
+			display: inline-block;
 		}
 	}
 </style>
