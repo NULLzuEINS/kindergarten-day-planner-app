@@ -185,7 +185,6 @@ const TEXT_LENGTH_MAX = 144;
 const TEXT_LENGTH_PREVIEW = 19;
 const TEXT_SIZE_DEFAULT = 22;
 const TEXT_FAMILY = 'ComicNeueBold';
-const TEXT_MARGIN_TOP = 5;
 
 export default {
   name: "DayPlanner",
@@ -208,6 +207,7 @@ export default {
             format: "a4",
             orientation: "portrait",
             fontSize: 22,
+            textMarginTop: 10,
           },
           item: {
             width: 40*2,
@@ -248,7 +248,8 @@ export default {
           page: {
             format: "a4",
             orientation: "landscape",
-            fontSize: 22,
+            fontSize: 24,
+            textMarginTop: 12,
           },
           item: {
             width: 40 * 4 - 22 *2,
@@ -288,7 +289,8 @@ export default {
           page: {
             format: "a4",
             orientation: "portrait",
-            fontSize: 22,
+            fontSize: 36,
+            textMarginTop: 20,
           },
           item: {
             width: 180,
@@ -459,8 +461,7 @@ export default {
             );
         } else if (item.type === "text") {
           // Add text to page
-          doc.text(position.x, position.y + TEXT_MARGIN_TOP, item.text, { maxWidth: this.layoutSelected.item.width });
-          console.log(item.text, 'dirk');
+          doc.text(position.x, position.y + this.layoutSelected.page.textMarginTop, item.text , { maxWidth: this.layoutSelected.item.width });
         }
 
         // Count items on page
@@ -502,7 +503,15 @@ export default {
       });
     },
 
-  // Show toast message
+  /**
+   * Show toast message.
+   * @param {String} message
+   * @param {String} type
+   * @param {Number} duration
+   * @returns {void}
+   * @memberof DayPlanner
+   * @private
+   */
   showToastMessage(message, type, duration) {
     this.$toast.open({
       message,
@@ -511,6 +520,7 @@ export default {
       position: 'top-right',
     })
     },
+
     /**
      * Persists settings in local storage.
      * @returns {void}
