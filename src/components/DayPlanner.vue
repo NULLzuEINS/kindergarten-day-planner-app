@@ -116,9 +116,8 @@
 								v-if="element.type === 'text'"
 								:open="element.open"
 							>
-								<summary>
+								<summary :title="element.text">
 									<strong>Text:&nbsp;</strong>
-									<em class="dayplanner-text-preview--xs">{{truncate(element.text) }}</em>
 									<marquee
 										class="dayplanner-text-preview--sm"
 										behavior="scroll"
@@ -128,11 +127,13 @@
 									>
 										{{element.text }}
 									</marquee>
+									<em class="dayplanner-text-preview--md">{{truncate(element.text) }}</em>
 								</summary>
 								<p>
 									<textarea
 										key="text"
 										:id="'text-' + index"
+										:name="'text-' + index"
 										:ref="'text-' + index"
 										v-model="element.text"
 										@change="persist()"
@@ -182,6 +183,9 @@ import items from "../store/items";
 
 const TEXT_LENGTH_MAX = 144;
 const TEXT_LENGTH_PREVIEW = 19;
+const TEXT_SIZE_DEFAULT = 22;
+const TEXT_FAMILY = 'ComicNeueBold';
+const TEXT_MARGIN_TOP = 5;
 
 export default {
   name: "DayPlanner",
@@ -203,8 +207,9 @@ export default {
           page: {
             format: "a4",
             orientation: "portrait",
+            fontSize: 22,
           },
-          image: {
+          item: {
             width: 40*2,
             height: 30*2,
             positions: [
@@ -243,8 +248,9 @@ export default {
           page: {
             format: "a4",
             orientation: "landscape",
+            fontSize: 22,
           },
-          image: {
+          item: {
             width: 40 * 4 - 22 *2,
             height: 30 * 4 - 22 *2,
             positions: [
@@ -274,7 +280,7 @@ export default {
 
           ],
         },
-                {
+       {
           id: "a4-2",
           preview: require("@/assets/layouts/A4-2.png"),
           description: "A4 Format mit zwei großen Bildern.",
@@ -282,8 +288,9 @@ export default {
           page: {
             format: "a4",
             orientation: "portrait",
+            fontSize: 22,
           },
-          image: {
+          item: {
             width: 180,
             height: 120,
             positions: [
@@ -310,7 +317,6 @@ export default {
             },
           ]
         },
-
       ],
     };
   },
@@ -341,7 +347,7 @@ export default {
      */
     truncate(text, length, suffix) {
       length = length || TEXT_LENGTH_PREVIEW;
-      suffix = suffix || "...";
+      suffix = suffix || "…";
       if (text.length > length) {
           return text.substring(0, length) + suffix;
       } else {
@@ -384,12 +390,12 @@ export default {
     addTextfield() {
       this.itemsSelected
       .push({
-        type: "text",
-        description: "",
+        id: 't',
+        type: 'text',
+        description: '',
         open: 'open',
-        text: "",
+        text: '',
       });
-      //document.getElementById(`text-${this.itemsSelected.length}`).focus();
     },
 
     /**
@@ -417,13 +423,17 @@ export default {
       doc.setProperties({
         title: 'KiTa Tagesplaner',
         subject: 'KiTa Tagesplaner mit Bildern',
-        author: 'Sarah Girlich',
+        author: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)',
         keywords: 'KiTa,NULLzuEINS,Tagesplaner',
         creator: 'Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)',
       });
 
-      // Set draw color to gray
+      // Add custom fonts to the document
+      doc.addFont(require(`@/assets/fonts/ComicNeue/ComicNeue-Bold.ttf`), 'ComicNeueBold', 'normal');
+      doc.setFontSize(this.layoutSelected.page.fontSize || TEXT_SIZE_DEFAULT);
+      doc.setFont(TEXT_FAMILY);
       doc.setDrawColor(42, 42, 42);
+      doc.setTextColor(0, 0, 0);
 
       // Draw a line at the bottom of the page
       doc.line(17, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 17, doc.internal.pageSize.height - 30);
@@ -434,23 +444,31 @@ export default {
       });
 
       // Add two images on every page.
-      let imagesOnPage = 0;
+      let itemsOnPage = 0;
       this.itemsSelected.forEach(async (item, index) => {
+        const position = this.layoutSelected.item.positions[itemsOnPage];
+        if (item.type === "image") {
            // Add image to page
-          const position = this.layoutSelected.image.positions[imagesOnPage];
           doc.addImage(
             require(`@/assets/images/${item.filename}`),
             'JPEG',
             position.x,
             position.y,
-            this.layoutSelected.image.width,
-            this.layoutSelected.image.height
+            this.layoutSelected.item.width,
+            this.layoutSelected.item.height
             );
-          imagesOnPage++;
+        } else if (item.type === "text") {
+          // Add text to page
+          doc.text(position.x, position.y + TEXT_MARGIN_TOP, item.text, { maxWidth: this.layoutSelected.item.width });
+          console.log(item.text, 'dirk');
+        }
 
-          // Add page if all images are added per page if it is not the last page
-          if(imagesOnPage === this.layoutSelected.image.positions.length
-          && index < this.itemsSelected.length -1) {
+        // Count items on page
+        itemsOnPage++;
+
+        // Add page if all images are added per page if it is not the last page
+        if(itemsOnPage === this.layoutSelected.item.positions.length
+            && index < this.itemsSelected.length -1) {
           doc.addPage();
 
           // Draw a line at the bottom of the page
@@ -461,7 +479,7 @@ export default {
             doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
           });
 
-          imagesOnPage = 0;
+          itemsOnPage = 0;
         }
       });
 
@@ -726,12 +744,12 @@ export default {
 		border: var(--color-primary) solid 1px;
 	}
 
-	.dayplanner-text-preview--xs {
-		display: inline-block;
-	}
-
 	.dayplanner-text-preview--sm {
 		display: none;
+	}
+
+	.dayplanner-text-preview--md {
+		display: inline-block;
 	}
 
 	/* ------------ Dayplanner: Summary ------------ */
@@ -780,12 +798,11 @@ export default {
 	}
 
 	.dayplanner-text--type-text marquee {
-		display: inline-block;
 		width: 60%;
 		white-space: nowrap;
 		overflow: hidden;
-    margin-bottom: -3px;
-    font-style: italic;
+		margin-bottom: -3px;
+		font-style: italic;
 	}
 
 	/* ------------ Dayplanner: Button ------------ */
@@ -836,12 +853,12 @@ export default {
 			overflow: hidden;
 		}
 
-		.dayplanner-text-preview--xs {
-			display: none;
-		}
-
 		.dayplanner-text-preview--sm {
 			display: inline-block;
+		}
+
+		.dayplanner-text-preview--md {
+			display: none;
 		}
 	}
 </style>
