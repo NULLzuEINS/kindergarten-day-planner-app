@@ -548,6 +548,7 @@ export default {
      */
     storeRemoveSettings() {
       window.localStorage.removeItem('itemsSelected');
+      this.itemsSelected = [];
       window.localStorage.removeItem('layoutSelected');
     },
 
@@ -623,11 +624,12 @@ export default {
      */
     checkVersionChanged() {
        // Compare version in local storage with version in package.json
-        if (this.storeGetVersion !== require('../../package.json').version) {
+        if (this.storeGetVersion() !== require('../../package.json').version) {
           // Show message if version in local storage is not equal to version in package.json
-          this.showToastMessage(`Es ist ein Programmupdate verfügbar.<br>Ihr Programm wurde automatisch aktualisiert.<br>Dabei wurden die Einstellungen zurückgesetzt.`, 'info', 14400);
-          this.storeRemoveSettings;
+          this.showToastMessage(`Es ist ein Programmupdate war verfügbar.<br>Ihr Programm wurde automatisch aktualisiert.<br>Dabei wurden die Einstellungen zurückgesetzt.`, 'info', 30000);
+          this.storeRemoveSettings();
           this.storeSetVersion();
+          this.$forceUpdate();
         }
     },
   },
