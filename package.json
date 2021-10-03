@@ -9,6 +9,7 @@
     "serve": "vue-cli-service serve",
     "proxy": " ./node_modules/.bin/ngrok http 8080 -host-header='localhost:8080'",
     "build": "vue-cli-service build",
+    "build-assets": "./node_modules/.bin/pwa-asset-generator public/img/icon.png -i public/index.html -m public/manifest.json -v '<%= BASE_URL %>/img' -q 85 --dark-mode --opaque public/img",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -28,7 +29,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
-    "ngrok": "^4.2.2"
+    "ngrok": "^4.2.2",
+    "pwa-asset-generator": "^4.3.9"
   },
   "eslintConfig": {
     "root": true,
