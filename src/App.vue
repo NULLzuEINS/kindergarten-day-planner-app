@@ -17,7 +17,7 @@ export default {
 	@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
 
 	:root {
-		--color-primary: hsl(10, 100%, 58%);
+		--color-primary: #ff4c29;
 		--color-secondary: hsl(10, 98%, 38%);
 		--color-gray: hsl(0, 0%, 70%);
 		--color-gray-light: hsl(0, 0%, 86%);
