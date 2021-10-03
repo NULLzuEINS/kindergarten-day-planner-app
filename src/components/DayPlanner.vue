@@ -25,7 +25,7 @@
 				>
 				<label
 					:for="layout.id"
-					@click="selectLayout(layout)"
+					@click="storeSetLayout(layout)"
 				>
 					<img
 						:src="layout.preview"
@@ -88,7 +88,7 @@
                               sort: true,
                           }"
 					tag="ol"
-					@change="persist"
+					@change="storeSetSettings"
 					:list="itemsSelected"
 					:item-key="Math.round(Math.random()*1000).toString()"
 				>
@@ -100,7 +100,7 @@
 								v-if="element.type === 'image'"
 								:open="element.open"
 							>
-								<summary @click="persist()">{{ element.description }}</summary>
+								<summary @click="storeSetSettings()">{{ element.description }}</summary>
 								<p>
 									<img
 										:src="require(`@/assets/images/${element.filename}`)"
@@ -127,7 +127,7 @@
 									>
 										{{element.text }}
 									</marquee>
-									<em class="dayplanner-text-preview--md">{{truncate(element.text) }}</em>
+									<em class="dayplanner-text-preview--md">{{filterTruncate(element.text) }}</em>
 								</summary>
 								<p>
 									<textarea
@@ -136,16 +136,16 @@
 										:name="'text-' + index"
 										:ref="'text-' + index"
 										v-model="element.text"
-										@change="persist()"
+										@change="storeSetSettings()"
 										rows="5"
 										cols="42"
 										maxlength="144"
 									></textarea>
-									<span v-html="checkLength(element.text)" />
+									<span v-html="checkTextfieldLength(element.text)" />
 								</p>
 							</details>
 							<button
-								@click="removeFromSelected(index)"
+								@click="storeRemoveFromSelected(index)"
 								class="dayplanner-item-btn dayplanner-item-btn--delete"
 							>⌫</button>
 						</li>
@@ -174,6 +174,9 @@
 			>🖨 Tagesplan drucken</button>
 		</p>
 	</section>
+	<footer>
+		Version: {{ version }}
+	</footer>
 </template>
 
 <script>
@@ -320,24 +323,11 @@ export default {
           ]
         },
       ],
+      version: ''
     };
   },
   methods: {
-   /**
-    * Selects a layout.
-    * @param {Object} layout
-    * @param {Number} index
-    * @returns {void}
-    * @private
-    * @memberof DayPlanner
-    */
-    selectLayout(layout) {
-            this.layouts.forEach((l) => {
-        l.checked = false;
-      });
-      layout.checked = true;
-      this.layoutSelected = layout;
-    },
+
 
     /**
      * Truncate a string to a given length.
@@ -347,7 +337,7 @@ export default {
      * @private
      * @memberof DayPlanner
      */
-    truncate(text, length, suffix) {
+    filterTruncate(text, length, suffix) {
       length = length || TEXT_LENGTH_PREVIEW;
       suffix = suffix || "…";
       if (text.length > length) {
@@ -364,23 +354,12 @@ export default {
      * @private
      * @memberof DayPlanner
      */
-    checkLength(text) {
+    checkTextfieldLength(text) {
       if (text.length >= TEXT_LENGTH_MAX) {
         return `<span class="text-warning" title="Der Text hat die maximale Länge erreicht. Wenn Sie mehr schreiben wollen, legen Sie ein neues Textfeld an!">${text.length} / ${TEXT_LENGTH_MAX}</span>`;
       } else {
         return `${text.length} / ${TEXT_LENGTH_MAX}`;
       }
-    },
-
-    /**
-     * Focus textarea on click.
-     * @param {String} ref to textarea
-     * @returns {void}
-     * @private
-     * @memberof DayPlanner
-     */
-    focusInput(key){
-      this.$refs[key][0].focus()
     },
 
     /**
@@ -394,7 +373,6 @@ export default {
       .push({
         id: 't',
         type: 'text',
-        description: '',
         open: 'open',
         text: '',
       });
@@ -521,17 +499,6 @@ export default {
     })
     },
 
-    /**
-     * Persists settings in local storage.
-     * @returns {void}
-     * @memberof DayPlanner
-     * @private
-     * @todo Check if local storage is available
-     */
-    persist: function () {
-      window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected);
-      window.localStorage.layoutSelected = JSON.stringify(this.layoutSelected);
-    },
 
     /**
      * Loads settings from local storage.
@@ -540,25 +507,135 @@ export default {
      * @private
      * @todo Check if local storage is available
      */
-    removeFromSelected(index) {
+    storeRemoveFromSelected(index) {
       this.itemsSelected.splice(index, 1);
-      this.persist();
+      this.storeSetSettings();
+    },
+
+      /**
+      * Loads settings  from local storage.
+      * @returns {void}
+      * @memberof DayPlanner
+      * @private
+      * @todo Check if local storage is available
+      */
+     storeGetSettings() {
+       if (window.localStorage.itemsSelected) {
+         this.itemsSelected = JSON.parse(window.localStorage.itemsSelected);
+       }
+       if (window.localStorage.layoutSelected) {
+         this.layoutSelected = JSON.parse(window.localStorage.layoutSelected);
+       }
+     },
+
+    /**
+     * Persists settings in local storage.
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     * @todo Check if local storage is available
+     */
+    storeSetSettings: function () {
+      window.localStorage.itemsSelected = JSON.stringify(this.itemsSelected);
+      window.localStorage.layoutSelected = JSON.stringify(this.layoutSelected);
+    },
+
+    /**
+     * Deletes settings from local storage.
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     */
+    storeRemoveSettings() {
+      window.localStorage.removeItem('itemsSelected');
+      window.localStorage.removeItem('layoutSelected');
+    },
+
+    /**
+     * Loads version number from package.json or from local storage.
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     */
+    storeGetVersion() {
+      if (window.localStorage.version) {
+        return this.version = window.localStorage.version;
+      } else {
+        return this.version = '0.0.0';
+      }
+    },
+
+    /**
+     * Set version number in local storage.
+     */
+    storeSetVersion() {
+      window.localStorage.version =  require('../../package.json').version;
+    },
+
+   /**
+    * Selects a layout.
+    * @param {Object} layout
+    * @param {Number} index
+    * @returns {void}
+    * @private
+    * @memberof DayPlanner
+    */
+    storeSetLayout(layout) {
+        this.layouts.forEach((l) => {
+        l.checked = false;
+      });
+      layout.checked = true;
+      this.layoutSelected = layout;
+      this.storeSetSettings();
+    },
+
+  /**
+   * Get layout from local storage or use default layout.
+   * @returns {void}
+   * @memberof DayPlanner
+   * @private
+   */
+  storeGetLayout() {
+    if (window.localStorage.layoutSelected) {
+        // Set checked property of layout to true on layoutSelected
+        this.layouts.forEach((l) => {
+          if (l.name === this.layoutSelected.name) {
+            l.checked = true;
+          } else {
+            l.checked = false;
+          }
+        });
+      this.layoutSelected = JSON.parse(window.localStorage.layoutSelected);
+    } else {
+      // Find default layout with check = true
+      this.layoutSelected = this.layouts.find((layout) => {
+        return layout.checked;
+      });
+    }
+      // force update
+      this.$forceUpdate();
+  },
+
+    /** Compare version number from package.json and local storage.
+     * @returns {Boolean}
+     * @memberof DayPlanner
+     * @private
+     */
+    checkVersionChanged() {
+       // Compare version in local storage with version in package.json
+        if (this.storeGetVersion !== require('../../package.json').version) {
+          // Show message if version in local storage is not equal to version in package.json
+          this.showToastMessage(`Es ist ein Programmupdate verfügbar.<br>Ihr Programm wurde automatisch aktualisiert.<br>Dabei wurden die Einstellungen zurückgesetzt.`, 'info', 14400);
+          this.storeRemoveSettings;
+          this.storeSetVersion();
+        }
     },
   },
-  mounted() {
-    // Load items selected from local storage
-    if (window.localStorage.itemsSelected) {
-      this.itemsSelected = JSON.parse(window.localStorage.itemsSelected);
-    }
-    // Load layout selected from local storage
-    if(window.localStorage.layoutSelected) {
-      this.layoutSelected = JSON.parse(window.localStorage.layoutSelected);
-    }
-    // Set default layout if no layout is selected
-    if (!this.layoutSelected) {
-      // Select layout with checked = true
-      this.layoutSelected = this.layouts.find((layout) => layout.checked);
-    }
+  created() {
+    this.storeGetSettings();
+    this.storeGetVersion();
+    this.storeGetLayout();
+    this.checkVersionChanged();
   },
 };
 </script>
