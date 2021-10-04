@@ -83,8 +83,7 @@ export default {
 		font-size: 0.8em;
 		color: var(--color-text);
 		background: var(--color-background-item);
-		margin-left: -3em;
-		margin-right: -3em;
+    border-radius: var(--border-radius-base);
 	}
 
 	hr {

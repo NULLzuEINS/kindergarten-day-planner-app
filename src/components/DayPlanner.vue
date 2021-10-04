@@ -330,7 +330,7 @@ async shareViaWebShare() {
    try {
      const shareData = {
       title: 'KiTa Tagesplaner',
-      text: 'Zum Erstellen von Tagesplänen für KiTas mit Illustrationen.',
+      text: 'Meine Empfehlung: Ein Tool zum Erstellen von Tagesplänen für KiTas mit Illustrationen.',
       url: 'https://kita-tagesplaner.nullzueins.com'
     };
     await navigator.share(shareData)
