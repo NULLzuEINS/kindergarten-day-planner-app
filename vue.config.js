@@ -24,18 +24,18 @@ module.exports = {
       lang: 'de-DE',
       background_color: '#ffffff',
       categories: ["kids", "education"],
-      "screenshots": [
+      screenshots: [
         {
-          "src": "/img/screenshots/desktop.png",
-          "sizes": "1280x800",
-          "type": "image/png"
+          src: "/img/screenshots/desktop.png",
+          sizes: "1280x800",
+          type: "image/png"
         },
         {
-          "src": "/img/screenshots/mobile.png",
-          "sizes": "750x1334",
-          "type": "image/png"
+          src: "/img/screenshots/mobile.png",
+          sizes: "750x1334",
+          type: "image/png"
         }
-      ]
+      ],
       icons: [
         {
           src: './img/icons/icon.png',
