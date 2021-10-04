@@ -22,29 +22,26 @@ module.exports = {
       display: 'standalone',
       orientation: 'portrait',
       lang: 'de-DE',
+      background_color: '#ffffff',
       categories: ["kids", "education"],
-      shortcuts: [
+      "screenshots": [
         {
-          name: "How's weather today?",
-          short_name: "Today",
-          description: "View weather information for today",
-          url: "/today?source=pwa",
-          icons: [{src: "/img/icons/icon.png", "sizes": "192x192"}]
+          "src": "/img/screenshots/desktop.png",
+          "sizes": "1280x800",
+          "type": "image/png"
         },
         {
-          name: "How's weather tomorrow?",
-          short_name: "Tomorrow",
-          description: "View weather information for tomorrow",
-          url: "/tomorrow?source=pwa",
-          icons: [{src: "/img/icons/icon.png", "sizes": "192x192"}]
+          "src": "/img/screenshots/mobile.png",
+          "sizes": "750x1334",
+          "type": "image/png"
         }
-      ],
+      ]
       icons: [
         {
           src: './img/icons/icon.png',
           sizes: '16x16 32x32 48x48 72x72 128x128 192x192 256x256 512x512',
           type: 'image/png',
-          purpose: 'any maskable monochrome'
+          purpose: 'any monochrome'
         },
         {
           src: './img/icons/safari-pinned-tab.svg',
