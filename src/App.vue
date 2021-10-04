@@ -17,7 +17,7 @@ export default {
 	@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
 
 	:root {
-		--color-primary: #ff4c29;
+		--color-primary: hsl(10, 100%, 58%);
 		--color-secondary: hsl(10, 98%, 38%);
 		--color-gray: hsl(0, 0%, 70%);
 		--color-gray-light: hsl(0, 0%, 86%);
@@ -65,6 +65,7 @@ export default {
 		background-color: var(--color-background);
 		font-family: "Comic Neue", cursive;
 		counter-reset: section;
+		padding: 0 2em;
 	}
 
 	h2 {
@@ -79,22 +80,30 @@ export default {
 	#app {
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		margin-top: 60px;
 	}
 
 	.text-center {
 		text-align: center;
 	}
 
-  .text-error {
-    color: var(--color-error);
-  }
+	.text-error {
+		color: var(--color-error);
+	}
 
-  .text-warning {
-    color: var(--color-warning);
-  }
+	.text-warning {
+		color: var(--color-warning);
+	}
 
-  .text-muted {
-    color: var(--color-gray-dark);
-  }
+	.text-muted {
+		color: var(--color-gray-dark);
+	}
+	/* ------------ Small devices ------------ */
+	@media screen and (max-width: 912px) {
+		html {
+			font-size: 80%;
+		}
+		body {
+			padding: 0 1em;
+		}
+	}
 </style>

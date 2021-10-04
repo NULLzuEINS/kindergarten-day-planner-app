@@ -3,9 +3,10 @@
 	<header class="dayplanner">
 		<h1 class="text-center">KiTa Tagesplaner</h1>
 		<p>
-			Erstellen Sie einen Tagesplan für ihren Kindergarten.
-			Schieben Sie dazu alle Tagespunkte von der linken- auf die rechte Seite!
-			Wenn Sie fertig sind, drücken Sie auf "PDF erstellen".
+			Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag.
+			Wählen Sie ein Layout und ziehen Sie einfach alle benötigten Tagespunkte von der linken auf die rechte Seite!
+			Für eine Voransicht der Tagespunkte klicken Sie auf <small>►</small>.
+			Wenn Sie fertig sind, schließen Sie mit "Tagesplan erstellen" den Vorgang ab.
 		</p>
 	</header>
 
@@ -117,17 +118,7 @@
 								:open="element.open"
 							>
 								<summary :title="element.text">
-									<strong>Text:&nbsp;</strong>
-									<marquee
-										class="dayplanner-text-preview--sm"
-										behavior="scroll"
-										scrollamount="2"
-										vspace="0"
-										hspace="12"
-									>
-										{{element.text }}
-									</marquee>
-									<em class="dayplanner-text-preview--md">{{filterTruncate(element.text) }}</em>
+									<strong>Text</strong>
 								</summary>
 								<p>
 									<textarea
@@ -171,11 +162,11 @@
 			<button
 				class="dayplanner-button"
 				@click="generatePdf()"
-			>🖨 Tagesplan drucken</button>
+			>🖨 Tagesplan erstellen</button>
 		</p>
 	</section>
 	<footer>
-		Version: {{ version }}
+		Installierte Version: {{ version }}
 	</footer>
 </template>
 
@@ -673,14 +664,16 @@ export default {
 		list-style: none;
 		padding: 0;
 		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 0fr);
+		grid-gap: 1em;
+		align-items: baseline;
 	}
 
-	/* List horizontal */
 	.layout-selector-item {
-		display: inline-block;
-		margin: 0 1em;
+		display: inline;
 	}
-
+	/* List horizontal */
 	.layout-selector input[type="radio"] {
 		opacity: 0;
 		position: fixed;
@@ -713,7 +706,6 @@ export default {
 	.dayplanner {
 		background: var(--color-background);
 		color: var(--color-text);
-		padding: 0 2em;
 		font-size: 1rem;
 	}
 
@@ -791,6 +783,7 @@ export default {
 		background: var(--color-text-inverted);
 		color: var(--color-text);
 	}
+
 	.dayplanner-item-btn:focus {
 		border: var(--color-primary) solid 1px;
 		outline: none; /* Remove default focus ring */
@@ -833,20 +826,13 @@ export default {
 		border: var(--color-primary) solid 1px;
 	}
 
-	.dayplanner-text-preview--sm {
-		display: none;
-	}
-
-	.dayplanner-text-preview--md {
-		display: inline-block;
-	}
-
 	/* ------------ Dayplanner: Summary ------------ */
 	.dayplanner-item summary {
 		grid-area: title;
 		cursor: pointer;
 		line-height: 1rem;
 	}
+
 	.dayplanner-text summary:focus {
 		border: var(--color-primary) solid 1px;
 		outline: none;
@@ -869,7 +855,8 @@ export default {
 	}
 
 	.dayplanner-text summary + p textarea {
-		width: 100%;
+		display: block;
+		width: 80%;
 		height: 100%;
 		outline: none;
 		resize: none;
@@ -880,10 +867,11 @@ export default {
 		font-size: 1rem;
 		line-height: 1rem;
 		padding: 0.5em;
-		margin-top: var(--padding-base);
+		margin: 0.5em var(--padding-base);
 	}
+
 	.dayplanner-text summary + p textarea:focus {
-		outline: dashed var(--color-primary) 1px;
+		border-color: var(--color-primary);
 	}
 
 	.dayplanner-text--type-text marquee {
@@ -919,7 +907,7 @@ export default {
 	/* ------------ Small devices ------------ */
 	@media screen and (max-width: 912px) {
 		.dayplanner-row {
-			grid-gap: 0;
+			grid-gap: 0.3em;
 			grid-template-columns: 50% 50%;
 		}
 
@@ -930,6 +918,12 @@ export default {
 
 		.dayplanner-item {
 			grid-gap: 0.4em;
+			grid-template-columns: 3fr 0fr;
+			grid-template-areas: "title delete";
+		}
+
+		.dayplanner-item-btn--handle {
+			display: none;
 		}
 
 		.dayplanner-item details {
@@ -940,14 +934,6 @@ export default {
 		.dayplanner-text {
 			text-overflow: ellipsis;
 			overflow: hidden;
-		}
-
-		.dayplanner-text-preview--sm {
-			display: inline-block;
-		}
-
-		.dayplanner-text-preview--md {
-			display: none;
 		}
 	}
 </style>
