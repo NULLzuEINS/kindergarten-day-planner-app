@@ -166,7 +166,10 @@
 		</p>
 	</section>
 	<footer>
-		Installierte Version: {{ version }}
+		<p v-if="webShareApiSupported">
+			Wenn Ihnen der Tagesplaner gefällt, können Sie ihn auch mit einem Klick auf den Button <button @click="shareViaWebShare">teilen</button>!
+		</p>
+		<div>Installierte Version: {{ version }}</div>
 	</footer>
 </template>
 
@@ -314,11 +317,29 @@ export default {
           ]
         },
       ],
-      version: ''
+      version: '',
     };
   },
+  computed: {
+    webShareApiSupported() {
+      return navigator.share
+    }
+  },
   methods: {
-
+async shareViaWebShare() {
+   try {
+     const shareData = {
+      title: 'KiTa Tagesplaner',
+      text: 'Zum Erstellen von Tagesplänen für KiTas mit Illustrationen.',
+      url: 'https://kita-tagesplaner.nullzueins.com'
+    };
+    await navigator.share(shareData)
+      this.showToastMessage( 'Die Adresse wurde geteilt. Vielen Dank für´s Weitersagen!', 'success', 14400);
+    } catch(err) {
+      this.showToastMessage( 'Sie haben die Anwendung nicht geteilt.', 'warning', 14400);
+      console.error(err);
+    }
+},
 
     /**
      * Truncate a string to a given length.

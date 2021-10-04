@@ -17,19 +17,34 @@ module.exports = {
     assetsVersion: VERSION,
     manifestOptions: {
       short_name: 'Tagesplaner',
+      description: '	Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag.	Wählen Sie ein Layout und ziehen Sie einfach alle benötigten Tagespunkte von der linken auf die rechte Seite!',
       msTileImage: 'img/icons/manifest-icon-512.png',
       display: 'standalone',
       orientation: 'portrait',
-      icons: [
+      lang: 'de-DE',
+      categories: ["kids", "education"],
+      shortcuts: [
         {
-          src: './img/icons/manifest-icon-512.png',
-          sizes: '512x512',
-          type: 'image/png'
+          name: "How's weather today?",
+          short_name: "Today",
+          description: "View weather information for today",
+          url: "/today?source=pwa",
+          icons: [{src: "/img/icons/icon.png", "sizes": "192x192"}]
         },
         {
+          name: "How's weather tomorrow?",
+          short_name: "Tomorrow",
+          description: "View weather information for tomorrow",
+          url: "/tomorrow?source=pwa",
+          icons: [{src: "/img/icons/icon.png", "sizes": "192x192"}]
+        }
+      ],
+      icons: [
+        {
           src: './img/icons/icon.png',
-          sizes: '192x192',
-          type: 'image/png'
+          sizes: '16x16 32x32 48x48 72x72 128x128 192x192 256x256 512x512',
+          type: 'image/png',
+          purpose: 'any maskable monochrome'
         },
         {
           src: './img/icons/safari-pinned-tab.svg',
