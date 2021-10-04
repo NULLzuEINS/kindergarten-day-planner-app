@@ -20,18 +20,18 @@ module.exports = {
       description: '	Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag.	Wählen Sie ein Layout und ziehen Sie einfach alle benötigten Tagespunkte von der linken auf die rechte Seite!',
       msTileImage: 'img/icons/manifest-icon-512.png',
       display: 'standalone',
-      orientation: 'portrait',
-      lang: 'de-DE',
+      orientation: 'landscape',
+      lang: 'de',
       background_color: '#ffffff',
       categories: ["kids", "education"],
       screenshots: [
         {
-          src: "/img/screenshots/desktop.png",
+          src: "./img/screenshots/desktop.png",
           sizes: "1280x800",
           type: "image/png"
         },
         {
-          src: "/img/screenshots/mobile.png",
+          src: "./img/screenshots/mobile.png",
           sizes: "750x1334",
           type: "image/png"
         }
@@ -42,11 +42,6 @@ module.exports = {
           sizes: '16x16 32x32 48x48 72x72 128x128 192x192 256x256 512x512',
           type: 'image/png',
           purpose: 'any monochrome'
-        },
-        {
-          src: './img/icons/safari-pinned-tab.svg',
-          sizes: '942x942',
-          type: 'image/svg+xml'
         },
       ]
     },
