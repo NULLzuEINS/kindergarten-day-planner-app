@@ -65,7 +65,8 @@ export default {
 		background-color: var(--color-background);
 		font-family: "Comic Neue", cursive;
 		counter-reset: section;
-		padding: 0 2em;
+		padding: 0 2em 0 2em;
+    margin: 0;
 	}
 
 	h2 {
@@ -75,6 +76,20 @@ export default {
 	h2::before {
 		counter-increment: section;
 		content: counter(section) ". ";
+	}
+
+	footer {
+		padding: 0.4em 6em;
+		font-size: 0.8em;
+		color: var(--color-text);
+		background: var(--color-background-item);
+		margin-left: -3em;
+		margin-right: -3em;
+	}
+
+	hr {
+		height: 1px;
+		padding: 0;
 	}
 
 	#app {
