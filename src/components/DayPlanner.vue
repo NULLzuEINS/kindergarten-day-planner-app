@@ -64,7 +64,7 @@
 								<summary>{{ element.description }}</summary>
 								<p>
 									<img
-										:src="require(`@/assets/images/${element.filename}`)"
+										:src="`/img/planer/${element.filename}`"
 										height="150"
 										:alt="element.description"
 										loading="lazy"
@@ -104,7 +104,7 @@
 								<summary @click="storeSetSettings()">{{ element.description }}</summary>
 								<p>
 									<img
-										:src="require(`@/assets/images/${element.filename}`)"
+										:src="`/img/planer/${element.filename}`"
 										height="150"
 										:alt="element.description"
 										loading="lazy"
@@ -169,7 +169,7 @@
 		<p v-if="webShareApiSupported">
 			Wenn Ihnen der Tagesplaner gefällt, können Sie ihn auch mit einem Klick auf den Button <button @click="shareViaWebShare">teilen</button>!
 		</p>
-		<div>Installierte Version: {{ version }}</div>
+		<div>Installierte Version: {{ version }} (<button @click="unregisterServiceWorker">deinstallieren</button>, <button @click="updateServiceWorker">update</button>, <button @click="registerServiceWorker">register</button>)</div>
 	</footer>
 </template>
 
@@ -503,6 +503,11 @@ async shareViaWebShare() {
    * @private
    */
   showToastMessage(message, type, duration) {
+    // Vibrate on mobile devices
+    if (navigator.vibrate) {
+        navigator.vibrate(200);
+    }
+
     this.$toast.open({
       message,
       type,
@@ -625,8 +630,70 @@ async shareViaWebShare() {
         return layout.checked;
       });
     }
-      // force update
+      // Force update
       this.$forceUpdate();
+  },
+
+  /**
+   * Unregister service worker.
+   * @returns {void}
+   * @memberof DayPlanner
+   * @private
+   */
+  unregisterServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  },
+
+  /**
+   * Update service worker.
+   * @returns {void}
+   * @memberof DayPlanner
+   * @private
+   */
+  updateServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then((registration) => {
+        registration.update();
+      });
+    }
+  },
+
+  /**
+   * Register service worker.
+   * @returns {void}
+   * @memberof DayPlanner
+   * @private
+   */
+  registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+  },
+
+  /**
+   * Check if service worker is available.
+   * @returns {void}
+   * @memberof DayPlanner
+   * @private
+   */
+  checkServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.pushManager.getSubscription().then((subscription) => {
+          if (subscription) {
+            this.subscribed = true;
+          } else {
+            this.subscribed = false;
+          }
+        });
+      });
+    }
   },
 
     /** Compare version number from package.json and local storage.
@@ -955,6 +1022,14 @@ async shareViaWebShare() {
 		.dayplanner-text {
 			text-overflow: ellipsis;
 			overflow: hidden;
+		}
+
+		.dayplanner-group-available .dayplanner-item {
+			grid-template-columns: 1fr;
+			grid-template-areas: "title";
+		}
+		.dayplanner-group-available .dayplanner-item-btn--delete {
+			display: none;
 		}
 	}
 </style>

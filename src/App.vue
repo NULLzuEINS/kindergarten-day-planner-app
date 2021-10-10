@@ -65,8 +65,8 @@ export default {
 		background-color: var(--color-background);
 		font-family: "Comic Neue", cursive;
 		counter-reset: section;
-		padding: 0 2em 0 2em;
-    margin: 0;
+		padding: 1em 2em;
+		margin: 0;
 	}
 
 	h2 {
@@ -83,7 +83,7 @@ export default {
 		font-size: 0.8em;
 		color: var(--color-text);
 		background: var(--color-background-item);
-    border-radius: var(--border-radius-base);
+		border-radius: var(--border-radius-base);
 	}
 
 	hr {
@@ -118,6 +118,13 @@ export default {
 		}
 		body {
 			padding: 0 1em;
+		}
+	}
+
+	/* ------------ Standalone ----------------- */
+	@media all and (display-mode: standalone) {
+		footer {
+			display: none;
 		}
 	}
 </style>
