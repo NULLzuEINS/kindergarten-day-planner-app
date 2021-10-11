@@ -29,6 +29,7 @@ module.exports = {
       display: 'standalone',
       orientation: 'landscape',
       lang: 'de',
+      start_url: '/',
       background_color: '#ffffff',
       categories: ["kids", "education"],
       screenshots: [
