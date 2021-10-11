@@ -1,10 +1,10 @@
-const VERSION = require('./package.json').version;
+const PACKAGE = require('./package.json');
 module.exports = {
   chainWebpack: config => {
     config
       .plugin('html')
       .tap(args => {
-        args[0].version = VERSION
+        args[0].version = PACKAGE.version
         return args
       })
   },
@@ -14,24 +14,24 @@ module.exports = {
     msTileColor: '#ff4c29',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
-    assetsVersion: VERSION,
+      assetsVersion: PACKAGE.version,
     manifestOptions: {
       short_name: 'Tagesplaner',
-      description: 'Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag.	Wählen Sie ein Layout und ziehen Sie einfach alle benötigten Tagespunkte von der linken auf die rechte Seite!',
-      author: '',
+      description: PACKAGE.description,
+      start_url: '/',
+      author: PACKAGE.author.name,
       developer: {
         name: 'André Lademann',
         url: "https://nullzueins.com"
       },
-      homepage_url: 'https://www.lakossachsen.de/',
+      homepage_url: PACKAGE.author.url,
       offline_enabled: true,
       msTileImage: 'img/icons/windows/mstile-150x150.png',
       display: 'standalone',
       orientation: 'landscape',
       lang: 'de',
-      start_url: '/',
       background_color: '#ffffff',
-      categories: ["kids", "education"],
+      categories: PACKAGE.categories,
       screenshots: [
         {
           src: "./img/screenshots/desktop.png",

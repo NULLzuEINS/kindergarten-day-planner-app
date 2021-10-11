@@ -1,8 +1,57 @@
 {
   "name": "dayplanner-app",
-  "description": "Tagesplaner",
+  "displayName": "KiTa Tagesplaner",
+  "description": "Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag. Wählen Sie ein Layout und ziehen Sie einfach alle benötigten Tagespunkte von der linken auf die rechte Seite!",
   "version": "0.1.0",
+  "type": "commonjs",
+  "license": "MIT",
   "private": true,
+  "homepage": "https://www.lakossachsen.de/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NULLzuEINS/kindergarten-day-planner-app"
+  },
+  "bugs": {
+    "url": "https://github.com/NULLzuEINS/kindergarten-day-planner-app/issues",
+    "email": "info@nullzueins.com"
+  },
+  "author": {
+    "name": "Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)",
+    "url": "https://www.lakossachsen.de/",
+    "email": "info@lakossachsen.de"
+  },
+  "categories": [
+    "Education",
+    "Other"
+  ],
+  "publisher": "Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)",
+  "contributors": [
+    {
+      "name": "Landeskompetenzzentrum zur Sprachförderungan Kindertageseinrichtungen in Sachsen(LakoS)",
+      "url": "https://www.lakossachsen.de/",
+      "email": "info@lakossachsen.de"
+    },
+    {
+      "name": "NULLzuEINS Inh. André Lademann",
+      "url": "https://nullzueins.com",
+      "email": "info@nullzueins.com"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "NULLzuEINS Inh. André Lademann",
+      "url": "https://nullzueins.com",
+      "email": "info@nullzueins.com"
+    }
+  ],
+  "readme": "README.md",
+  "preview": true,
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
