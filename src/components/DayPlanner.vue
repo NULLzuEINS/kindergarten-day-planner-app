@@ -105,8 +105,8 @@
 								<p>
 									<img
 										:src="`/img/planer/${element.filename}`"
-										height="150"
 										:alt="element.description"
+										height="150"
 										loading="lazy"
 									/>
 								</p>
