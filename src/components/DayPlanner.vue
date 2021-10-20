@@ -326,20 +326,20 @@ export default {
     }
   },
   methods: {
-async shareViaWebShare() {
-   try {
-     const shareData = {
-      title: 'KiTa Tagesplaner',
-      text: 'Meine Empfehlung: Ein Tool zum Erstellen von Tagesplänen für KiTas mit beschreibenden Illustrationen.',
-      url: `${ window.location.protocol}//${window.location.hostname}`
-    };
-    await navigator.share(shareData)
-      this.showToastMessage( 'Die Adresse wurde geteilt. Vielen Dank für´s Weitersagen!', 'success', 14400);
-    } catch(err) {
-      this.showToastMessage( 'Sie haben die Anwendung nicht geteilt.', 'warning', 14400);
-      console.error(err);
-    }
-},
+    async shareViaWebShare() {
+      try {
+        const shareData = {
+          title: process.env.VUE_APP_TITLE || 'KiTa Tagesplaner',
+          text: 'Meine Empfehlung: Ein Tool zum Erstellen von Tagesplänen für KiTas mit beschreibenden Illustrationen.',
+          url: `${ window.location.protocol}//${window.location.hostname}`
+        };
+        await navigator.share(shareData)
+          this.showToastMessage( 'Die Adresse wurde geteilt. Vielen Dank für´s Weitersagen!', 'success', 14400);
+        } catch(err) {
+          this.showToastMessage( 'Sie haben die Anwendung nicht geteilt.', 'warning', 14400);
+          console.error(err);
+        }
+    },
 
     /**
      * Truncate a string to a given length.
@@ -435,6 +435,14 @@ async shareViaWebShare() {
         doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
       });
 
+        // Add link to url in footer
+        doc.setFont('ComicNeue');
+        doc.setFontSize(8);
+        doc.setTextColor(12, 12, 12);
+        doc.text(`Den Tagesplaner finden Sie unter`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 18, { align: 'center' });
+        doc.setTextColor(12, 12, 200);
+        doc.textWithLink(`www.lakossachsen.de`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 14, { url: 'https://www.lakossachsen.de/', target: '_blank', align: 'center' });
+
       // Add two images on every page.
       let itemsOnPage = 0;
       this.itemsSelected.forEach(async (item, index) => {
@@ -503,11 +511,6 @@ async shareViaWebShare() {
    * @private
    */
   showToastMessage(message, type, duration) {
-    // Vibrate on mobile devices
-    if (navigator.vibrate) {
-        navigator.vibrate(200);
-    }
-
     this.$toast.open({
       message,
       type,
@@ -587,7 +590,7 @@ async shareViaWebShare() {
      * Set version number in local storage.
      */
     storeSetVersion() {
-      window.localStorage.version =  require('../../package.json').version;
+      window.localStorage.version =  process.env.VUE_APP_VERSION;
     },
 
    /**
@@ -703,7 +706,7 @@ async shareViaWebShare() {
      */
     checkVersionChanged() {
        // Compare version in local storage with version in package.json
-        if (this.storeGetVersion() !== require('../../package.json').version) {
+        if (this.storeGetVersion() !== process.env.VUE_APP_VERSION) {
           // Show message if version in local storage is not equal to version in package.json
           this.showToastMessage(`Es ist ein Programmupdate war verfügbar.<br>Ihr Programm wurde automatisch aktualisiert.<br>Dabei wurden die Einstellungen zurückgesetzt.`, 'info', 30000);
           this.storeRemoveSettings();

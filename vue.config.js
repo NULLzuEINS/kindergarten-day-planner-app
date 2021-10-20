@@ -1,37 +1,38 @@
-const PACKAGE = require('./package.json');
+const PACKAGE = require('./package.json')
+
+process.env = {
+  ...process.env,
+  VUE_APP_VERSION: PACKAGE.version,
+  VUE_APP_TITLE: PACKAGE.title,
+  VUE_APP_DISPLAYNAME: PACKAGE.displayName,
+  VUE_APP_AUTHOR_NAME: PACKAGE.author.name,
+  VUE_APP_AUTHOR_URL: PACKAGE.author.url,
+}
 module.exports = {
-  chainWebpack: config => {
-    config
-      .plugin('html')
-      .tap(args => {
-        args[0].version = PACKAGE.version
-        return args
-      })
-  },
   pwa: {
-    name: 'KiTa Tagesplaner',
+    name: process.env.VUE_APP_DISPLAYNAME,
     themeColor: '#ff4c29',
     msTileColor: '#ff4c29',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
-      assetsVersion: PACKAGE.version,
+    assetsVersion: process.env.VUE_APP_VERSION,
     manifestOptions: {
       short_name: 'Tagesplaner',
-      description: PACKAGE.description,
+      description: process.env.VUE_APP_DESCIPTION,
       start_url: '/',
-      author: PACKAGE.author.name,
+      author: process.env.VUE_APP_AUTHOR_NAME,
       developer: {
         name: 'André Lademann',
         url: "https://nullzueins.com"
       },
-      homepage_url: PACKAGE.author.url,
+      homepage_url: process.env.VUE_APP_AUTHOR_URL,
       offline_enabled: true,
       msTileImage: 'img/icons/windows/mstile-150x150.png',
       display: 'standalone',
       orientation: 'landscape',
       lang: 'de',
       background_color: '#ffffff',
-      categories: PACKAGE.categories,
+      categories: process.env.VUE_APP_CATEGORIES,
       screenshots: [
         {
           src: "./img/screenshots/desktop.png",
