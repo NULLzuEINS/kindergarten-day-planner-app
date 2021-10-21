@@ -225,7 +225,7 @@ export default {
               width: 45,
               height: 16,
               url: require(`@/assets/logos/logo_sachsen.png`),
-              type: 'PNG'
+              type: 'PNG',
             },
             {
               x: 125,
@@ -233,7 +233,8 @@ export default {
               width: 64,
               height: 18,
               url: require(`@/assets/logos/logo_lakos.png`),
-              type: 'PNG'
+              type: 'PNG',
+              link: 'https://www.lakossachsen.de/',
             },
           ]
         },
@@ -265,7 +266,7 @@ export default {
               width: 45,
               height: 16,
               url: require(`@/assets/logos/logo_sachsen.png`),
-              type: 'PNG'
+              type: 'PNG',
             },
             {
               x: 210,
@@ -273,7 +274,8 @@ export default {
               width: 64,
               height: 18,
               url: require(`@/assets/logos/logo_lakos.png`),
-              type: 'PNG'
+              type: 'PNG',
+              link: 'https://www.lakossachsen.de/',
             },
 
           ],
@@ -304,7 +306,7 @@ export default {
               width: 45,
               height: 16,
               url: require(`@/assets/logos/logo_sachsen.png`),
-              type: 'PNG'
+              type: 'PNG',
             },
             {
               x: 125,
@@ -312,7 +314,8 @@ export default {
               width: 64,
               height: 18,
               url: require(`@/assets/logos/logo_lakos.png`),
-              type: 'PNG'
+              type: 'PNG',
+              link: 'https://www.lakossachsen.de/',
             },
           ]
         },
@@ -432,7 +435,13 @@ export default {
 
       // Add logos on the first page
       this.layoutSelected.logos.forEach((logo) => {
+        // Add logo
         doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
+        // If logo has a link, add a link to the PDF
+        if (logo.link) {
+          // Add a link to the PDF
+          doc.link(logo.x, logo.y, logo.width, logo.height, { url: logo.link, target: '_blank' });
+        }
       });
 
         // Add link to url in footer
@@ -475,7 +484,12 @@ export default {
 
           // Add logos on the following pages
           this.layoutSelected.logos.forEach((logo) => {
+            // Add logo
             doc.addImage(logo.url, logo.type, logo.x, logo.y, logo.width, logo.height);
+            // If logo has a link, add a link to the PDF
+            if (logo.link) {
+              doc.link(logo.x, logo.y, logo.width, logo.height, {url: logo.link, target: '_blank'});
+            }
           });
 
           itemsOnPage = 0;
