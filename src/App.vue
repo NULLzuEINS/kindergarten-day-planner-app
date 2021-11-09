@@ -17,15 +17,15 @@ export default {
 	@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
 
 	:root {
-		--color-primary: hsl(10, 100%, 58%);
-		--color-secondary: hsl(10, 98%, 38%);
+		--color-primary: hsl(18, 74%, 49%);
+		--color-secondary: hsl(101, 48%, 52%);
 		--color-gray: hsl(0, 0%, 70%);
 		--color-gray-light: hsl(0, 0%, 86%);
 		--color-gray-light-light: hsl(0, 0%, 90%);
 		--color-gray-dark: hsl(215, 26%, 23%);
 		--color-gray-dark-dark: hsl(206, 72%, 11%);
 		--color-white: hsl(0, 0%, 100%);
-		--color-error: hsl(4, 90%, 58%);
+		--color-error: hsl(2, 81%, 58%);
 		--color-warning: hsl(36, 100%, 50%);
 		--font-family: "Roboto", sans-serif;
 		--padding-base: 16px;
