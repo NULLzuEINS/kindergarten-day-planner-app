@@ -432,10 +432,6 @@ export default {
 
       // Add custom fonts to the document
       doc.addFont(require(`@/assets/fonts/ComicNeue/ComicNeue-Bold.ttf`), 'ComicNeueBold', 'normal');
-      doc.setFontSize(this.layoutSelected.page.fontSize || TEXT_SIZE_DEFAULT);
-      doc.setFont(TEXT_FAMILY);
-      doc.setDrawColor(42, 42, 42);
-      doc.setTextColor(0, 0, 0);
 
       // Draw a line at the bottom of the page
       doc.line(17, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 17, doc.internal.pageSize.height - 30);
@@ -453,11 +449,9 @@ export default {
 
         // Add link to url in footer
         doc.setFont('ComicNeue');
-        doc.setFontSize(8);
-        doc.setTextColor(12, 12, 12);
-        doc.text(`Den Tagesplaner finden Sie unter`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 18, { align: 'center' });
+        doc.setFontSize(7);
         doc.setTextColor(12, 12, 200);
-        doc.textWithLink(`www.lakossachsen.de`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 14, { url: 'https://www.lakossachsen.de/', target: '_blank', align: 'center' });
+        doc.textWithLink(`www.lakossachsen.de`, doc.internal.pageSize.width - 57, doc.internal.pageSize.height - 11, { url: 'https://www.lakossachsen.de/', target: '_blank', align: 'center' });
 
       // Add two images on every page.
       let itemsOnPage = 0;
@@ -475,6 +469,10 @@ export default {
             );
         } else if (item.type === "text") {
           // Add text to page
+          doc.setFontSize(this.layoutSelected.page.fontSize || TEXT_SIZE_DEFAULT);
+          doc.setFont(TEXT_FAMILY);
+          doc.setDrawColor(42, 42, 42);
+          doc.setTextColor(0, 0, 0);
           doc.text(position.x, position.y + this.layoutSelected.page.textMarginTop, item.text , { maxWidth: this.layoutSelected.item.width });
         }
 
