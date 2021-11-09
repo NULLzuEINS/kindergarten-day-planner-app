@@ -1,5 +1,5 @@
 <template>
-	<DayPlanner />
+	<DayPlanner  />
 </template>
 
 <script>
@@ -9,6 +9,13 @@ export default {
   name: 'App',
   components: {
     DayPlanner
+  },
+  mounted() {
+    // If it is in iframe
+    if (window.self !== window.top) {
+      // paddong on body is sero
+      document.body.style.padding = '0px';
+    }
   }
 }
 </script>
