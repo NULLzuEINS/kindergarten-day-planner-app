@@ -24,7 +24,7 @@ export default {
 		--color-gray-light-light: hsl(0, 0%, 90%);
 		--color-gray-dark: hsl(215, 26%, 23%);
 		--color-gray-dark-dark: hsl(206, 72%, 11%);
-		--color-white: hsl(0, 0%, 93%);
+		--color-white: hsl(0, 0%, 100%);
 		--color-error: hsl(4, 90%, 58%);
 		--color-warning: hsl(36, 100%, 50%);
 		--font-family: "Roboto", sans-serif;
@@ -36,7 +36,7 @@ export default {
 		--padding-xxxlg: 48px;
 		--border-radius-base: 0.25em;
 
-		--color-background: var(--color-gray-light-light);
+		--color-background: var(--color-white);
 		--color-background-item: var(--color-gray-light);
 		--color-background-item-active: var(--color-gray);
 		--color-text: var(--color-gray-dark-dark);

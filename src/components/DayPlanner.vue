@@ -1,6 +1,6 @@
 /* eslint-disable vue/no-deprecated-filter */
 <template>
-	<header class="dayplanner">
+	<header class="dayplanner" v-if="notInIframe">
 		<h1 class="text-center">KiTa Tagesplaner</h1>
 		<p>
 			Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag.
@@ -165,7 +165,7 @@
 			>🖨 Tagesplan erstellen</button>
 		</p>
 	</section>
-	<footer>
+	<footer  v-if="notInIframe">
 		<p v-if="webShareApiSupported">
 			Wenn Ihnen der Tagesplaner gefällt, können Sie ihn auch mit einem Klick auf den Button <button @click="shareViaWebShare">teilen</button>!
 		</p>
@@ -326,6 +326,12 @@ export default {
   computed: {
     webShareApiSupported() {
       return navigator.share
+    },
+    /**
+     * @returns {Boolean} true if it is not in a iframe or false if it is in a iframe
+     */
+    notInIframe () {
+      return window.top === window.self
     }
   },
   methods: {
