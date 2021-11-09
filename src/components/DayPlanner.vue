@@ -733,7 +733,7 @@ export default {
      */
     checkVersionChanged() {
        // Compare version in local storage with version in package.json
-        if (this.storeGetVersion() !== process.env.VUE_APP_VERSION) {
+        if (this.storeGetVersion() !== '0.0.0' && this.storeGetVersion() !== process.env.VUE_APP_VERSION) {
           // Show message if version in local storage is not equal to version in package.json
           this.showToastMessage(`Es ist ein Programmupdate war verfügbar.<br>Ihr Programm wurde automatisch aktualisiert.<br>Dabei wurden die Einstellungen zurückgesetzt.`, 'info', 30000);
           this.storeRemoveSettings();
