@@ -1,7 +1,6 @@
 /* eslint-disable vue/no-deprecated-filter */
 <template>
-
-	<header class="dayplanner" v-if="notInIframe">
+	<header class="dayplanner" v-if="isNotInIframe">
 		<h1 class="text-center">KiTa Tagesplaner</h1>
 		<p>
 			Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag.
@@ -164,11 +163,11 @@
         :disabled="!itemsSelected.length">🖨  Tagesplan erstellen</Button>
 		</p>
 	</section>
-	<footer  v-if="notInIframe">
-		<p v-if="webShareApiSupported">
-			Wenn Ihnen der Tagesplaner gefällt, können Sie ihn auch mit einem Klick auf den Button <button @click="shareViaWebShare">teilen</button>!
+	<footer  v-if="isNotInIframe && (isShareable || isPWA)">
+		<p v-if="isShareable">
+			Wenn Ihnen der Tagesplaner gefällt, können Sie ihn auch mit einem Klick auf den Button <Button @click="shareViaWebShare">teilen</Button>!
 		</p>
-		<div>Installierte Version: {{ version }} (<button @click="unregisterServiceWorker">deinstallieren</button>, <button @click="updateServiceWorker">update</button>, <button @click="registerServiceWorker">register</button>)</div>
+		<div v-if="isPwa">Installierte Version: {{ version }} (<button @click="unregisterServiceWorker">deinstallieren</button>, <button @click="updateServiceWorker">update</button>, <button @click="registerServiceWorker">register</button>)</div>
 	</footer>
 </template>
 
@@ -325,14 +324,23 @@ export default {
     };
   },
   computed: {
-    webShareApiSupported() {
-      return navigator.share
+    /**
+     * @returns {boolean} true, if the web share API is supported
+     */
+    isShareable() {
+      return 'share' in navigator;
     },
     /**
      * @returns {Boolean} true if it is not in a iframe or false if it is in a iframe
      */
-    notInIframe () {
+    isNotInIframe () {
       return window.top === window.self
+    },
+    /**
+     * @returns {Boolean} true if application runs in a PWA context
+     */
+    isPwa() {
+      return window.matchMedia('(display-mode: standalone)').matches
     }
   },
   methods: {
