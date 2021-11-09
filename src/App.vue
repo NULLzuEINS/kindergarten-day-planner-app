@@ -22,7 +22,7 @@ export default {
 		--color-gray: hsl(0, 0%, 70%);
 		--color-gray-light: hsl(0, 0%, 86%);
 		--color-gray-light-light: hsl(0, 0%, 90%);
-		--color-gray-dark: hsl(215, 26%, 23%);
+		--color-gray-dark: hsl(0, 0%, 40%);
 		--color-gray-dark-dark: hsl(206, 72%, 11%);
 		--color-white: hsl(0, 0%, 100%);
 		--color-error: hsl(2, 81%, 58%);
@@ -39,7 +39,7 @@ export default {
 		--color-background: var(--color-white);
 		--color-background-item: var(--color-gray-light);
 		--color-background-item-active: var(--color-gray);
-		--color-text: var(--color-gray-dark-dark);
+		--color-text: var(--color-gray-dark);
 		--color-text-inverted: var(--color-white);
 		--color-border: var(--color-gray-light);
 	}
