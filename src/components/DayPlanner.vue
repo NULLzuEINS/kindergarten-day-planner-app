@@ -1,5 +1,6 @@
 /* eslint-disable vue/no-deprecated-filter */
 <template>
+
 	<header class="dayplanner" v-if="notInIframe">
 		<h1 class="text-center">KiTa Tagesplaner</h1>
 		<p>
@@ -95,6 +96,7 @@
 				>
 					<template #item="{ element, index }">
 						<li class="dayplanner-item">
+
 							<button class="dayplanner-item-btn dayplanner-item-btn--handle">☰</button>
 							<details
 								class="dayplanner-text"
@@ -142,10 +144,7 @@
 						</li>
 					</template>
 				</draggable>
-				<button
-					class="dayplanner-btn"
-					@click="addTextfield()"
-				>Text hinzufügen</button>
+        <Button @click="addTextfield()">Text hinzufügen</Button>
 			</div>
 		</div>
 	</section>
@@ -159,10 +158,10 @@
 			Bitte warten Sie, bis die Seite neu geladen wird!
 		</div>
 		<p class="text-center">
-			<button
-				class="dayplanner-button"
-				@click="generatePdf()"
-			>🖨 Tagesplan erstellen</button>
+      <Button
+        @click="createDocument()"
+        class="btn btn-large"
+        :disabled="!itemsSelected.length">🖨  Tagesplan erstellen</Button>
 		</p>
 	</section>
 	<footer  v-if="notInIframe">
@@ -175,6 +174,7 @@
 
 <script>
 import draggable from "vuedraggable";
+import Button from "./Button.vue";
 import jsPDF from "jspdf";
 import items from "../store/items";
 
@@ -187,6 +187,7 @@ export default {
   name: "DayPlanner",
   components: {
     draggable,
+    Button
   },
   data() {
     return {
@@ -400,12 +401,12 @@ export default {
     },
 
     /**
-     * Generates the PDF.
+     * Create the PDF.
      * @returns {void}
      * @memberof DayPlanner
      * @private
      */
-    generatePdf() {
+    createDocument() {
       this.loadingIndicator = true;
 
       // Define file name
@@ -985,35 +986,6 @@ export default {
 		border-color: var(--color-primary);
 	}
 
-	.dayplanner-text--type-text marquee {
-		width: 60%;
-		white-space: nowrap;
-		overflow: hidden;
-		margin-bottom: -3px;
-		font-style: italic;
-	}
-
-	/* ------------ Dayplanner: Button ------------ */
-	.dayplanner-button {
-		background-color: var(--color-primary);
-		color: var(--color-text);
-		font-size: 1.44rem;
-		padding: var(--padding-base);
-		border-radius: 0.3em;
-		margin: var(--padding-base);
-		border: #33333355 solid 4px;
-		cursor: pointer;
-	}
-
-	.dayplanner-button:hover {
-		background-color: var(--color-secondary);
-		color: var(--color-text-inverted);
-	}
-
-	.dayplanner-button:active {
-		background-color: var(--color-primary);
-		color: var(--color-text-inverted);
-	}
 
 	/* ------------ Small devices ------------ */
 	@media screen and (max-width: 912px) {
