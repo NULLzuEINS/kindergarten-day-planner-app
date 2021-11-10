@@ -19,7 +19,7 @@ export default {
    color: var(--color-white);
    cursor: pointer;
    margin: .5em 1em;
-   padding: 1em 2em;
+   padding: .5em 1em;
    text-transform: uppercase;
    transition: all 0.4s;
   background: linear-gradient(to right, var(--color-primary), var(--color-secondary));

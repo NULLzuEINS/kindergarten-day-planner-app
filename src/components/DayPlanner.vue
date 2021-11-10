@@ -153,8 +153,8 @@
 			class="alert alert-primary"
 			role="alert"
 		>
-			Das Erstellen des Dokumentes kann einige Zeit in Anspruch nehmen.
-			Bitte warten Sie, bis die Seite neu geladen wird!
+			Das Erstellen des Dokumentes kann einige Sekunden in Anspruch nehmen.
+			Bitte warten Sie, bis der Donwload der PDF startet!
 		</div>
 		<p class="text-center">
       <Button
