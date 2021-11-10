@@ -13,7 +13,8 @@ export default {
   mounted() {
     // If it is in iframe and not in dark mode
     if (window.self !== window.top ) {
-      if (window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.style.width = '95%';
+        if (window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) {
             // paddong on body is sero
             document.body.style.padding = '0px';
       }
