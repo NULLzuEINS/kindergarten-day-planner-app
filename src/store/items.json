@@ -25,7 +25,7 @@
         "type": "image",
         "open": false,
         "filename": "03_morgenkreis.jpg",
-        "description": "Morgenkreis"
+        "description": "Morgenkreis/Erzählkreis "
     },
     {
         "id": 4,
@@ -46,7 +46,7 @@
         "type": "image",
         "open": false,
         "filename": "06_tanzen.jpg",
-        "description": "Tanzen"
+        "description": "Tanzen, Turnen, Bewegung"
     },
     {
         "id": 7,
@@ -60,14 +60,14 @@
         "type": "image",
         "open": false,
         "filename": "08_spielen.jpg",
-        "description": "Spielen"
+        "description": "Freispiel"
     },
     {
         "id": 9,
         "type": "image",
         "open": false,
         "filename": "09_experimentieren.jpg",
-        "description": "Experiementieren"
+        "description": "Experimentieren"
     },
     {
         "id": 10,
@@ -95,7 +95,7 @@
         "type": "image",
         "open": false,
         "filename": "13_elternabend.jpg",
-        "description": "Elternabend"
+        "description": "Elternabend/Teamabend"
     },
     {
         "id": 14,
