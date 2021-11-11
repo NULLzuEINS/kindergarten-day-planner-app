@@ -24,9 +24,16 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
+## Features
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Create PDFs of your dayplanner with drag and drop functionality.
+- Add additional custom text to your dayplanner.
+- Choose between different templates for your dayplanner.
+- Opens print dialog for PDFs of your dayplanner automatically.
+- Revisit the application and see your changes from the last time you opened it.
+- Install the application as a PWA.
+- Enjoy your preferred theme (light or dark).
+- Use it on your desktop or mobile devices.
 
 ## Licenses from dependencies
 
