@@ -103,5 +103,12 @@
         "open": false,
         "filename": "14_verabschieden.jpg",
         "description": "Verabschieden"
+    },
+    {
+        "id": 15,
+        "type": "image",
+        "open": false,
+        "filename": "15_uhr.png",
+        "description": "Uhr"
     }
 ]
