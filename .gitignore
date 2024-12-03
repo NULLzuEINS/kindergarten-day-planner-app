@@ -4,6 +4,7 @@
 !/src
 !/.editorconfig
 !/.gitignore
+!/.nvmrc
 !/babel.config.js
 !/jsconfig.json
 !/LICENSE
