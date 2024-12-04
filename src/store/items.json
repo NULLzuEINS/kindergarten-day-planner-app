@@ -102,6 +102,13 @@
         "type": "image",
         "open": false,
         "filename": "14_verabschieden.jpg",
-        "description": "Verabschieden"
+        "description": "Verabschieden der Kinder"
+    },
+    {
+        "id": 15,
+        "type": "image",
+        "open": false,
+        "filename": "15_uhr.jpg",
+        "description": "Uhr zum selbst Eintragen"
     }
 ]

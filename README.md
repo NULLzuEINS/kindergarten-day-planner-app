@@ -3,7 +3,7 @@
 ## Project setup
 
 ```bash
-yarn install
+yarn install --frozen-lockfile
 ```
 
 ### Compiles and hot-reloads for development
