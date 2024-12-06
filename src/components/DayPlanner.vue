@@ -73,7 +73,7 @@
                     loading="lazy"
                   />
                 </p>
-                <p v-else-if="element.type === 'text'">
+                <p v-else-if="element.type === 'text'" :title="element.text">
                   Fügen Sie dieses Element per Drag & Drop hinzu, um selbst einen Text einzugeben.
                 </p>
               </details>
@@ -1056,6 +1056,11 @@ export default {
 .dayplanner-item--text {
   color: var(--color-white) !important;
   background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+}
+
+.dayplanner-item--text p {
+  margin-left: 2rem;
+  margin-right: 4rem;
 }
 
 .dayplanner-item--text button,
