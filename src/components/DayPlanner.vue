@@ -988,7 +988,6 @@ export default {
 }
 
 .dayplanner-item summary {
-  cursor: pointer;
   color: var(--color-text);
 }
 
