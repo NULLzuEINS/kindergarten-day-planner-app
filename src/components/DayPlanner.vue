@@ -56,13 +56,16 @@
           item-key="id"
         >
           <template #item="{ element }">
-            <li class="dayplanner-item">
+            <li
+              class="dayplanner-item"
+              :class="{ 'dayplanner-item--text': (element.type === 'text') }"
+            >
               <button class="dayplanner-item-btn dayplanner-item-btn--handle">
                 ☰
               </button>
               <details class="dayplanner-text">
                 <summary>{{ element.description }}</summary>
-                <p>
+                <p v-if="element.type === 'image'">
                   <img
                     :src="`/img/planer/${element.filename}`"
                     height="150"
@@ -70,9 +73,12 @@
                     loading="lazy"
                   />
                 </p>
+                <p v-else-if="element.type === 'text'">
+                  Fügen Sie dieses Element per Drag & Drop hinzu, um selbst einen Text einzugeben.
+                </p>
               </details>
-              <button class="dayplanner-item-btn dayplanner-item-btn--delete">
-                ⌫
+              <button class="dayplanner-item-btn dayplanner-item-btn--add" @click="storeAddItem(element)">
+                ＋
               </button>
             </li>
           </template>
@@ -108,8 +114,9 @@
                 <summary @click="storeSetSettings()">{{
                   element.description
                 }}</summary>
-                <p>
+                <p v-if="element.type === 'image'">
                   <img
+                    v-if="element.type === 'image'"
                     :src="`/img/planer/${element.filename}`"
                     :alt="element.description"
                     height="150"
@@ -132,6 +139,7 @@
                     :id="'text-' + index"
                     :name="'text-' + index"
                     :ref="'text-' + index"
+                    :placeholder="element.placeholder"
                     v-model="element.text"
                     @change="storeSetSettings()"
                     rows="5"
@@ -150,7 +158,6 @@
             </li>
           </template>
         </draggable>
-        <Button @click="addTextfield()">Text hinzufügen</Button>
       </div>
     </div>
   </section>
@@ -158,7 +165,7 @@
   <section class="dayplanner">
     <div class="alert alert-primary" role="alert">
       Das Erstellen des Dokumentes kann einige Sekunden in Anspruch nehmen.
-      Bitte warten Sie, bis der Donwload der PDF startet!
+      Bitte warten Sie, bis der Download der PDF startet!
     </div>
     <p class="text-center">
       <Button
@@ -423,7 +430,8 @@ export default {
         id: "t",
         type: "text",
         open: "open",
-        text: ""
+        text: "",
+        placeholder: "Hier den Text eingeben",
       });
     },
 
@@ -628,6 +636,18 @@ export default {
     },
 
     /**
+     * Add item to selected items.
+     * @param {Object} item
+     * @returns {void}
+     * @memberof DayPlanner
+     * @private
+     */
+     storeAddItem(item) {
+      this.itemsSelected.push(item);
+      this.storeSetSettings();
+    },
+
+    /**
      * Loads settings from local storage.
      * @returns {void}
      * @memberof DayPlanner
@@ -689,7 +709,7 @@ export default {
       if (window.localStorage.version) {
         return (this.version = window.localStorage.version);
       } else {
-        return (this.version = "0.0.0");
+        return (this.version = "1.8.0");
       }
     },
 
@@ -842,6 +862,8 @@ export default {
 /* :::::::::::::::::::::::::::::::::::: Alert boxes ::::::::::::::::::::::::::::::::::::::::: */
 .alert {
   position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 1.2rem 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
@@ -925,6 +947,7 @@ export default {
   margin-left: 1.4em;
 }
 
+
 .dayplanner-group {
   border: 1px solid var(--color-background-item-active);
   min-height: 100px;
@@ -934,12 +957,9 @@ export default {
 }
 
 .dayplanner-group-selected {
-  min-height: 80%;
+  min-height: 87%;
 }
 
-.dayplanner-group-available .dayplanner-item-btn--delete {
-  visibility: hidden;
-}
 
 /* ------------ Dayplanner: Item ------------ */
 .dayplanner-item {
@@ -986,10 +1006,11 @@ export default {
   font-size: 1rem;
   background: transparent;
   cursor: pointer;
+  transition: background 0.3s, color 0.3s;
 }
 
 .dayplanner-item-btn:hover {
-  background: var(--color-text-inverted);
+  background: var(--color-background-item-active);
   color: var(--color-text);
 }
 
@@ -1011,6 +1032,14 @@ export default {
   cursor: grab;
 }
 
+.dayplanner-item-btn--add {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+.dayplanner-item-btn--add:focus {
+  border-color: var(--color-text);
+}
+
 .dayplanner-item-btn--delete {
   background-color: var(--color-error);
   color: var(--color-white);
@@ -1018,6 +1047,21 @@ export default {
 }
 .dayplanner-item-btn--delete:focus {
   border-color: var(--color-text);
+}
+
+.dayplanner-item--text {
+  color: var(--color-white) !important;
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+}
+
+.dayplanner-item--text button,
+.dayplanner-item--text summary {
+  color: var(--color-white);
+  font-weight: 800;
+}
+
+.dayplanner-item--text details summary::marker {
+  color: var(--color-white);
 }
 
 .dayplanner-choosen,
@@ -1043,7 +1087,6 @@ export default {
 }
 
 .dayplanner-text summary:focus {
-  border: var(--color-primary) solid 1px;
   outline: none;
 }
 
@@ -1055,7 +1098,6 @@ export default {
   line-height: 1.2em;
   margin-top: 0;
   padding: 0;
-  text-align: center;
 }
 
 .dayplanner-text summary + p img {
@@ -1115,12 +1157,5 @@ export default {
     overflow: hidden;
   }
 
-  .dayplanner-group-available .dayplanner-item {
-    grid-template-columns: 1fr;
-    grid-template-areas: "title";
-  }
-  .dayplanner-group-available .dayplanner-item-btn--delete {
-    display: none;
-  }
 }
 </style>
