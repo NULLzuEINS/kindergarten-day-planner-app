@@ -1,6 +1,27 @@
 # Dayplanner APP (PWA)
 
+## Environments
+
+| Name | Url |
+| ---- | --- |
+| Development | <https://localhost:8080> |
+| Staging | <https://kindergarten-day-planner-app-staging.onrender.com> |
+| Production | <https://kita-tagesplaner.onrender.com> |
+
 ## Project setup
+
+### Node.js
+
+Best way is to use [nvm](https://github.com/nvm-sh/nvm) to manage your node.js versions.
+This project contains a `.nvmrc` file with the version of node.js that is used for this project.
+
+```bash
+nvm use
+```
+
+### Install dependencies
+
+Install all dependencies with yarn.
 
 ```bash
 yarn install --frozen-lockfile
