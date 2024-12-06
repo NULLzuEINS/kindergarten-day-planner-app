@@ -229,12 +229,12 @@ export default {
             },
             {
               x: 125,
-              y: 268,
-              width: 64,
-              height: 18,
+              y: 270,
+              width: 55,
+              height: 16,
               url: require(`@/assets/logos/logo_lakos.png`),
               type: 'PNG',
-              link: 'https://www.lakossachsen.de/',
+              link: 'https://www.lakos-sachsen.de/',
             },
           ]
         },
@@ -270,12 +270,12 @@ export default {
             },
             {
               x: 210,
-              y: 183,
-              width: 64,
-              height: 18,
+              y: 185,
+              width: 55,
+              height: 16,
               url: require(`@/assets/logos/logo_lakos.png`),
               type: 'PNG',
-              link: 'https://www.lakossachsen.de/',
+              link: 'https://www.lakos-sachsen.de/',
             },
 
           ],
@@ -310,12 +310,12 @@ export default {
             },
             {
               x: 125,
-              y: 268,
-              width: 64,
-              height: 18,
+              y: 270,
+              width: 55,
+              height: 16,
               url: require(`@/assets/logos/logo_lakos.png`),
               type: 'PNG',
-              link: 'https://www.lakossachsen.de/',
+              link: 'https://www.lakos-sachsen.de/',
             },
           ]
         },
@@ -459,7 +459,7 @@ export default {
         doc.setFont('ComicNeue');
         doc.setFontSize(7);
         doc.setTextColor(12, 12, 200);
-        doc.textWithLink(`www.lakossachsen.de`, doc.internal.pageSize.width - 57, doc.internal.pageSize.height - 11, { url: 'https://www.lakossachsen.de/', target: '_blank', align: 'center' });
+        doc.textWithLink(`www.lakos-sachsen.de`, doc.internal.pageSize.width - 60, doc.internal.pageSize.height - 10, { url: 'https://www.lakos-sachsen.de/', target: '_blank', align: 'center' });
 
       // Add two images on every page.
       let itemsOnPage = 0;
