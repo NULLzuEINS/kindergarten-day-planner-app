@@ -983,8 +983,13 @@ export default {
   padding: 1em 1em;
   font-size: 1rem;
   line-height: 1rem;
-  color: var(--color-text);
+  color: var(--color-white);
   border: transparent solid 1px;
+}
+
+.dayplanner-item summary {
+  cursor: pointer;
+  color: var(--color-text);
 }
 
 .dayplanner-item > input {
