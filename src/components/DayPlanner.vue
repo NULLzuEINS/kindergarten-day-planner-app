@@ -247,7 +247,7 @@ export default {
               type: "PNG"
             },
             {
-              x: 125,
+              x: 136,
               y: 270,
               width: 55,
               height: 16,
