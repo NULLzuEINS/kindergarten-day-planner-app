@@ -82,7 +82,7 @@
       <div class="dayplanner-col">
         <h3>Ausgewählte Tagespunkte</h3>
         <draggable
-          class="dayplanner-group"
+          class="dayplanner-group dayplanner-group-selected"
           ghost-class="dayplanner-ghost"
           chosen-class="dayplanner-choosen"
           :group="{
@@ -931,6 +931,10 @@ export default {
   min-width: 100px;
   background-color: var(--color-background);
   padding: var(--padding-base) var(--padding-base) var(--padding-xxxlg);
+}
+
+.dayplanner-group-selected {
+  min-height: 80%;
 }
 
 .dayplanner-group-available .dayplanner-item-btn--delete {
