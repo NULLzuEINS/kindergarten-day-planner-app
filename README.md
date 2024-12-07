@@ -1,5 +1,20 @@
 # Dayplanner APP (PWA)
 
+![Dayplanner App](./public/img/screenshots/desktop.png)
+
+## Description
+
+This is a day planner app that allows users to plan their day in Kindergarten by adding events and tasks.
+
+## Features
+
+- Add events and tasks to the day planner
+- Edit the order for events and tasks
+- Delete events and tasks
+- Add custom text
+- Choose between different layouts
+- Build the PDF of the day planner
+
 ## Environments
 
 | Name | Url |
