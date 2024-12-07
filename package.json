@@ -2,7 +2,7 @@
   "name": "dayplanner-app",
   "displayName": "KiTa Tagesplaner",
   "description": "Erstellen Sie hier einen individuellen Plan für Ihren pädagogischen Alltag. Wählen Sie ein Layout und ziehen Sie einfach alle benötigten Tagespunkte von der linken auf die rechte Seite!",
-  "version": "0.1.0",
+  "version": "1.8.0",
   "type": "commonjs",
   "license": "MIT",
   "private": true,
