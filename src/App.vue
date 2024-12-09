@@ -28,7 +28,7 @@ export default {
 
 	:root {
 		--color-primary: hsl(18, 74%, 49%);
-		--color-secondary: hsl(101, 48%, 52%);
+		--color-secondary: rgb(164, 193, 60);
 		--color-gray: hsl(0, 0%, 70%);
 		--color-gray-light: hsl(0, 0%, 86%);
 		--color-gray-light-light: hsl(0, 0%, 90%);
